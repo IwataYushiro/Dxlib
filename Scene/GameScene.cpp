@@ -3,7 +3,7 @@
 #include "Global.h"
 GameScene::GameScene()
 {
-	this->floorPos = WIN_HEIGHT - 100.0f;
+
 }
 
 GameScene::~GameScene()
@@ -31,7 +31,7 @@ void GameScene::Update() {
 	ClearDrawScreen();
 
 	//XVˆ—
-	player_->Update(keys,oldkeys);
+	player_->Update(keys, oldkeys);
 }
 //•`‰æ
 void GameScene::Draw() {
@@ -42,5 +42,5 @@ void GameScene::Draw() {
 //°‚ð•`‰æ
 void GameScene::DrawFloor() {
 	//°‚ð•`‰æ
-	DrawBox(0, floorPos, WIN_WIDTH, WIN_HEIGHT, GetColor(31, 30, 51), true);
+	DrawBox(0, player_->getFloorpos(), WIN_WIDTH, WIN_HEIGHT, GetColor(31, 30, 51), true);
 }

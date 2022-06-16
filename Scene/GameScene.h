@@ -25,8 +25,6 @@ private:
 
 	//プレイヤー包含
 	Player* player_ = nullptr;
-	
-	//床の位置
-	float floorPos;
+
 };
 

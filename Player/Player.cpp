@@ -13,6 +13,7 @@ void Player::Initialize() {
 	this->transform.y = 32.0f;
 	this->transform.radius = 16.0f;
 	this->moveSpeed = 5.0f;
+	this->floorPos = WIN_HEIGHT - 100.0f;
 	this->isSwim = true;
 	this->gravity = 6.0f;
 }
@@ -26,34 +27,43 @@ void Player::Update(char* key, char* oldkey) {
 //マリオ風泳ぎ
 void Player::MarioSwim(char* key, char* oldkey) {
 
-
+	//左アローが押されていたら
 	if (key[KEY_INPUT_LEFT])
 	{
 		transform.x -= moveSpeed;
 	}
+	//右アローが押されていたら
 	if (key[KEY_INPUT_RIGHT])
 	{
 		transform.x += moveSpeed;
 	}
-
+	//スペースキーを押した瞬間泳ぐ(床から離れている状態)
 	if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
 	{
 		isSwim = true;
+		//重力が0になる
 		gravity = 0.0f;
 	}
+	//泳いでいる間
 	if (isSwim == true)
 	{
+		//プレイヤーの座標 -= 浮力(固定) - 重力(徐々に上がる)　
 		transform.y -= buoyancy - gravity;
+		//重力は徐々に上がる
 		gravity += 0.2f;
 	}
-	if (transform.y >= WIN_HEIGHT - 100.0f - transform.radius && isSwim == true)
+
+	//泳いでる最中床に足を付けたら
+	if (transform.y >= floorPos - transform.radius && isSwim == true)
 	{
-		gravity = 8.0f;
+		gravity = 6.0f;
 		isSwim = false;
-		transform.y = WIN_HEIGHT - 100.0f - transform.radius;
+		transform.y = floorPos - 100.0f - transform.radius;
 	}
+	//重力が10以上の場合
 	if (gravity >= 10.0f)
 	{
+		//重力を固定する
 		gravity = 10.0f;
 	}
 }
