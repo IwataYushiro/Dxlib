@@ -1,13 +1,14 @@
 #include "DxLib.h"
+#include "Player.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "LE2B_07_イワタ_ユウシロウ";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = 600;
+const int WIN_WIDTH = 1000;
 
 // ウィンドウ縦幅
-const int WIN_HEIGHT = 400;	
+const int WIN_HEIGHT = 600;	
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -28,7 +29,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetWindowSizeExtendRate(1.0);
 
 	// 画面の背景色を設定する
-	SetBackgroundColor(0x00, 0x00, 0xFF);			
+	SetBackgroundColor(0x80, 0x80, 0xFF);			
 
 	// DXlibの初期化
 	if (DxLib_Init() == -1) { return -1; }
