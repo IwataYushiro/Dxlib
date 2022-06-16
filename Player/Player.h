@@ -1,5 +1,6 @@
 #pragma once
-
+#include "DxLib.h"
+#include "PlayerTransform.h"
 
 class Player
 {
@@ -15,7 +16,8 @@ public:
 	void Draw();
 
 private:
-	
-	
+
+	Transform transform;
+	float moveSpeed;
 };
 
