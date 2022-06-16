@@ -1,7 +1,9 @@
 #include "GameScene.h"
-
+#include "DxLib.h"
+#include "Global.h"
 GameScene::GameScene()
 {
+	this->floorPos = WIN_HEIGHT - 100.0f;
 }
 
 GameScene::~GameScene()
@@ -29,9 +31,16 @@ void GameScene::Update() {
 	ClearDrawScreen();
 
 	//XVˆ—
-	player_->Update(keys);
+	player_->Update(keys,oldkeys);
 }
 //•`‰æ
 void GameScene::Draw() {
 	player_->Draw();
+	//°‚ğ•`‰æ
+	DrawFloor();
+}
+//°‚ğ•`‰æ
+void GameScene::DrawFloor() {
+	//°‚ğ•`‰æ
+	DrawBox(0, floorPos, WIN_WIDTH, WIN_HEIGHT, GetColor(31, 30, 51), true);
 }

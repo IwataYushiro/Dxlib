@@ -13,7 +13,8 @@ public:
 	void Update();
 	//描画
 	void Draw();
-
+	//床を描画
+	void DrawFloor();
 private:
 
 	// 最新のキーボード情報用
@@ -24,6 +25,8 @@ private:
 
 	//プレイヤー包含
 	Player* player_ = nullptr;
-
+	
+	//床の位置
+	float floorPos;
 };
 

@@ -25,6 +25,9 @@
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{b46a7c8a-e943-4cd1-9a62-eb00641bb8ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Global">
+      <UniqueIdentifier>{23e03463-7e3b-430d-8cc9-ee7f67df5e35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Scene\PlayerTransform.h">
       <Filter>ヘッダー ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\Global.h">
+      <Filter>ヘッダー ファイル\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
