@@ -10,8 +10,13 @@ public:
 	
 	//初期化
 	void Initialize();
+	
 	//更新
 	void Update(char* key, char* oldkey);
+	
+	//マリオ風泳ぎ
+	void MarioSwim(char* key, char* oldkey);
+	
 	//描画
 	void Draw();
 	
@@ -23,7 +28,7 @@ private:
 	//泳いだか
 	bool isSwim;
 	//浮力
-	float swimPower;
+	const float buoyancy = 6.0f;
 	//重力
 	float gravity;
 };

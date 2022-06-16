@@ -24,7 +24,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetWindowSizeExtendRate(1.0);
 
 	// 画面の背景色を設定する
-	SetBackgroundColor(0x80, 0x80, 0xFF);			
+	SetBackgroundColor(0x80, 0x80, 0xFF);
 
 	// DXlibの初期化
 	if (DxLib_Init() == -1) { return -1; }
@@ -39,7 +39,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
-	
+
 	// ゲームループ
 	while (1)
 	{
@@ -52,7 +52,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		gameScene->Draw();
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
-		ScreenFlip();	
+		ScreenFlip();
 
 		// 20ミリ秒待機(疑似60FPS)
 		WaitTimer(20);

@@ -14,11 +14,17 @@ void Player::Initialize() {
 	this->transform.radius = 16.0f;
 	this->moveSpeed = 5.0f;
 	this->isSwim = true;
-	this->swimPower = 6.0f;
 	this->gravity = 6.0f;
 }
+
 //更新
 void Player::Update(char* key, char* oldkey) {
+	//マリオ風泳ぎ
+	MarioSwim(key, oldkey);
+}
+
+//マリオ風泳ぎ
+void Player::MarioSwim(char* key, char* oldkey) {
 
 
 	if (key[KEY_INPUT_LEFT])
@@ -37,7 +43,7 @@ void Player::Update(char* key, char* oldkey) {
 	}
 	if (isSwim == true)
 	{
-		transform.y -= swimPower - gravity;
+		transform.y -= buoyancy - gravity;
 		gravity += 0.2f;
 	}
 	if (transform.y >= WIN_HEIGHT - 100.0f - transform.radius && isSwim == true)
