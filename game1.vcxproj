@@ -129,12 +129,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Scene\Floor.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\WaterGimmick.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\Global.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Scene\Floor.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\PlayerTransform.h" />
     <ClInclude Include="Scene\WaterGimmick.h" />

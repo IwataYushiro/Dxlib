@@ -5,9 +5,11 @@
 Player::Player() {
 
 	srand(time(NULL));
-
+	
 };
-Player::~Player() {};
+Player::~Player() {
+	delete floor_;
+};
 
 //‰Šú‰»
 void Player::Initialize() {
@@ -15,12 +17,14 @@ void Player::Initialize() {
 	this->transform.y = 32.0f;
 	this->transform.radius = 16.0f;
 	this->moveSpeed = 5.0f;
-	this->floorPos = WIN_HEIGHT - 100.0f;
 	this->isSwim = true;
 	this->gravity = 6.0f;
 	this->isAlive = true;
 	this->aliveCount = 60.0f * 20.0f;
-	this->bublleCount = 60.0f * 4.0f;
+
+	//°‰Šú‰»
+	floor_ = new Floor();
+	floor_->Initialize();
 }
 
 //XV
@@ -74,11 +78,11 @@ void Player::MarioSwim(char* key, char* oldkey) {
 	}
 
 	//‰j‚¢‚Å‚éÅ’†°‚É‘«‚ð•t‚¯‚½‚ç
-	if (transform.y >= floorPos - transform.radius && isSwim == true)
+	if (transform.y >= floor_->getFloorpos() - transform.radius && isSwim == true)
 	{
 		gravity = 6.0f;
 		isSwim = false;
-		transform.y = floorPos - transform.radius;
+		transform.y = floor_->getFloorpos() - transform.radius;
 	}
 	//d—Í‚ª10ˆÈã‚Ìê‡
 	if (gravity >= 10.0f)
@@ -98,7 +102,6 @@ void Player::Death(char* key, char* oldkey) {
 		isSwim = true;
 		isAlive = true;
 		aliveCount = 60.0f * 20.0f;
-		bublleCount = 60.0f * 4.0f;
 	}
 }
 //•`‰æ
@@ -115,5 +118,6 @@ void Player::Draw() {
 			transform.x + transform.radius, transform.y + transform.radius,
 			GetColor(255, 0, 0), TRUE);
 	}
+
 	DrawFormatString(0, 0, GetColor(0, 0, 0), "Life::%f", aliveCount);
 }

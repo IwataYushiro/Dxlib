@@ -1,9 +1,10 @@
 #pragma once
 #include "DxLib.h"
-#include <stdlib.h>
-#include <time.h>
+#include "Floor.h"
 #include "PlayerTransform.h"
 
+#include <stdlib.h>
+#include <time.h>
 
 class Player
 {
@@ -23,15 +24,15 @@ public:
 	void Death(char* key, char* oldkey);
 	//描画
 	void Draw();
-	//アクセッサ
-	float getFloorpos() { return floorPos; }
+	
 private:
+	//床との当たり判定を得るために包含
+	Floor* floor_ = nullptr;
 
+	//プレイヤーの情報
 	Transform transform;
 	float moveSpeed;
-	//床の位置
-	float floorPos;
-
+	
 	//泳いだか
 	bool isSwim;
 	//浮力
@@ -42,7 +43,6 @@ private:
 	bool isAlive;
 	//寿命
 	float aliveCount;
-	//泡が出るカウント
-	float bublleCount;
+	
 };
 

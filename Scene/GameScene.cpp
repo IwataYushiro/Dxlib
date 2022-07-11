@@ -1,19 +1,23 @@
 #include "GameScene.h"
 #include "DxLib.h"
-#include "Global.h"
+
 GameScene::GameScene()
 {
-
+	this->bublleCount = 60.0f * 4.0f;
 }
 
 GameScene::~GameScene()
 {
+	delete floor_;
 	delete player_;
 	delete waterGimmick_;
 }
 
 //‰Šú‰»
 void GameScene::Initialize() {
+	floor_ = new Floor();
+	floor_->Initialize();
+
 	player_ = new Player();
 	player_->Initialize();
 }
@@ -36,12 +40,8 @@ void GameScene::Update() {
 }
 //•`‰æ
 void GameScene::Draw() {
+	//ƒvƒŒƒCƒ„[•`‰æ
 	player_->Draw();
 	//°‚ð•`‰æ
-	DrawFloor();
-}
-//°‚ð•`‰æ
-void GameScene::DrawFloor() {
-	//°‚ð•`‰æ
-	DrawBox(0, player_->getFloorpos(), WIN_WIDTH, WIN_HEIGHT, GetColor(31, 30, 51), true);
+	floor_->DrawFloor();
 }
