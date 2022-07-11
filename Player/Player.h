@@ -1,6 +1,9 @@
 #pragma once
 #include "DxLib.h"
+#include <stdlib.h>
+#include <time.h>
 #include "PlayerTransform.h"
+
 
 class Player
 {
@@ -16,7 +19,8 @@ public:
 
 	//マリオ風泳ぎ
 	void MarioSwim(char* key, char* oldkey);
-
+	//死んだあと
+	void Death(char* key, char* oldkey);
 	//描画
 	void Draw();
 	//アクセッサ
@@ -34,5 +38,11 @@ private:
 	const float buoyancy = 6.0f;
 	//重力
 	float gravity;
+	//生きてるか
+	bool isAlive;
+	//寿命
+	float aliveCount;
+	//泡が出るカウント
+	float bublleCount;
 };
 

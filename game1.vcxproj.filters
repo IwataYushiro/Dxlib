@@ -39,6 +39,9 @@
     <ClCompile Include="Scene\GameScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\WaterGimmick.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player\Player.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Global\Global.h">
       <Filter>ヘッダー ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\WaterGimmick.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

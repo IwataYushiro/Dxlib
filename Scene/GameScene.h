@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "WaterGimmick.h"
 
 class GameScene
 {
@@ -25,6 +26,7 @@ private:
 
 	//プレイヤー包含
 	Player* player_ = nullptr;
-
+	//水中ギミック包含
+	WaterGimmick* waterGimmick_ = nullptr;
 };
 
