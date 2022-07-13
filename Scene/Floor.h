@@ -2,7 +2,6 @@
 class Floor
 {
 public:
-	Floor();
 	~Floor();
 
 	//‰Šú‰»

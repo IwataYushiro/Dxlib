@@ -1,7 +1,8 @@
 #pragma once
 #include "DxLib.h"
 #include "Floor.h"
-#include "PlayerTransform.h"
+#include "Transform.h"
+#include "WaterGimmick.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -9,7 +10,7 @@
 class Player
 {
 public:
-	Player();
+
 	~Player();
 
 	//初期化
@@ -24,7 +25,14 @@ public:
 	void Death(char* key, char* oldkey);
 	//描画
 	void Draw();
-	
+	//生きてるとき
+	void DrawAlive();
+	//窒息したとき
+	void DrawChoking();
+
+	//プレイヤー情報のアクセッサ
+	Transform GetPlayerTransform() { return transform; }
+
 private:
 	//床との当たり判定を得るために包含
 	Floor* floor_ = nullptr;
@@ -32,9 +40,12 @@ private:
 	//プレイヤーの情報
 	Transform transform;
 	float moveSpeed;
-	
+
+	//仕掛けの反映用
+	WaterGimmick* waterGimmick_ = nullptr;
+
 	//泳いだか
-	bool isSwim;
+	bool isSwim = true;
 	//浮力
 	const float buoyancy = 6.0f;
 	//重力
@@ -43,6 +54,6 @@ private:
 	bool isAlive;
 	//寿命
 	float aliveCount;
-	
+
 };
 

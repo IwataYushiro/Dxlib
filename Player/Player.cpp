@@ -2,29 +2,32 @@
 #include "DxLib.h"
 #include "Global.h"
 
-Player::Player() {
-
-	srand(time(NULL));
-	
-};
 Player::~Player() {
 	delete floor_;
+	delete waterGimmick_;
 };
 
 //初期化
 void Player::Initialize() {
+	//床初期化
+	floor_ = new Floor();
+	floor_->Initialize();
+
+	//仕掛け初期化
+	waterGimmick_ = new WaterGimmick();
+	waterGimmick_->Initialize();
+
 	this->transform.x = 32.0f;
 	this->transform.y = 32.0f;
 	this->transform.radius = 16.0f;
 	this->moveSpeed = 5.0f;
+	
 	this->isSwim = true;
 	this->gravity = 6.0f;
 	this->isAlive = true;
 	this->aliveCount = 60.0f * 20.0f;
 
-	//床初期化
-	floor_ = new Floor();
-	floor_->Initialize();
+	
 }
 
 //更新
@@ -37,12 +40,12 @@ void Player::Update(char* key, char* oldkey) {
 	else
 	{
 		Death(key, oldkey);
-		
+
 	}
-	
-	if (aliveCount<=0)
+
+	if (aliveCount <= 0.0f)
 	{
-		aliveCount = 0;
+		aliveCount = 0.0f;
 		isAlive = false;
 	}
 	aliveCount--;
@@ -60,6 +63,11 @@ void Player::MarioSwim(char* key, char* oldkey) {
 	if (key[KEY_INPUT_RIGHT])
 	{
 		transform.x += moveSpeed;
+	}
+	//水流に飲み込まれた時
+	if (waterGimmick_->GetIsHitWaterflow() == true)
+	{
+		this->moveSpeed /= 2.0f;
 	}
 	//スペースキーを押した瞬間泳ぐ(床から離れている状態)
 	if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
@@ -94,7 +102,7 @@ void Player::MarioSwim(char* key, char* oldkey) {
 //死んだあとの処理
 void Player::Death(char* key, char* oldkey) {
 
-	if (key[KEY_INPUT_R]&& !oldkey[KEY_INPUT_R])
+	if (key[KEY_INPUT_R] && !oldkey[KEY_INPUT_R])
 	{
 		transform.x = 32.0f;
 		transform.y = 32.0f;
@@ -108,16 +116,30 @@ void Player::Death(char* key, char* oldkey) {
 void Player::Draw() {
 	if (isAlive)
 	{
-		DrawBox(transform.x - transform.radius, transform.y - transform.radius,
-			transform.x + transform.radius, transform.y + transform.radius,
-			GetColor(0, 255, 0), TRUE);
+		DrawAlive();
 	}
 	else
 	{
-		DrawBox(transform.x - transform.radius, transform.y - transform.radius,
-			transform.x + transform.radius, transform.y + transform.radius,
-			GetColor(255, 0, 0), TRUE);
+		DrawChoking();
 	}
 
 	DrawFormatString(0, 0, GetColor(0, 0, 0), "Life::%f", aliveCount);
+}
+//生きてるとき
+void Player::DrawAlive()
+{
+	DrawBox(transform.x - transform.radius, transform.y - transform.radius,
+		transform.x + transform.radius, transform.y + transform.radius,
+		GetColor(0, 255, 0), TRUE);
+	//お知らせ
+	DrawString(0, 30, "アローで移動、スペースで泳ぎますわよ", GetColor(255, 255, 255));
+}
+//窒息死
+void Player::DrawChoking()
+{
+	DrawBox(transform.x - transform.radius, transform.y - transform.radius,
+		transform.x + transform.radius, transform.y + transform.radius,
+		GetColor(255, 0, 0), TRUE);
+	//お知らせ
+	DrawString(0, 30, "Rで復活よ", GetColor(0, 0, 0));
 }

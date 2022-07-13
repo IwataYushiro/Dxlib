@@ -53,7 +53,7 @@
     <ClInclude Include="Scene\GameScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\PlayerTransform.h">
+    <ClInclude Include="Scene\Transform.h">
       <Filter>ヘッダー ファイル\player</Filter>
     </ClInclude>
     <ClInclude Include="Global\Global.h">
@@ -64,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Scene\Floor.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\Hit.h">
+      <Filter>ヘッダー ファイル\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

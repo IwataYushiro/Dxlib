@@ -3,10 +3,6 @@
 
 #include <DxLib.h>
 
-Floor::Floor()
-{
-}
-
 Floor::~Floor()
 {
 }

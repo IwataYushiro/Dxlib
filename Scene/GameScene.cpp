@@ -20,6 +20,9 @@ void GameScene::Initialize() {
 
 	player_ = new Player();
 	player_->Initialize();
+
+	waterGimmick_ = new WaterGimmick();
+	waterGimmick_->Initialize();
 }
 //XV
 void GameScene::Update() {
@@ -37,11 +40,18 @@ void GameScene::Update() {
 
 	//XVˆ—
 	player_->Update(keys, oldkeys);
+	//ŽdŠ|‚¯
+	waterGimmick_->Update();
 }
+
 //•`‰æ
 void GameScene::Draw() {
 	//ƒvƒŒƒCƒ„[•`‰æ
 	player_->Draw();
+	//ŽdŠ|‚¯
+	waterGimmick_->Draw();
+	// ‚±‚±‚Ü‚Å
+	
 	//°‚ð•`‰æ
 	floor_->DrawFloor();
 }
