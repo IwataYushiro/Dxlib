@@ -3,7 +3,7 @@
 WaterGimmick::~WaterGimmick()
 {
 	delete floor_;
-	delete player_;
+	//delete player_;
 }
 
 //èâä˙âª
@@ -12,8 +12,8 @@ void WaterGimmick::Initialize()
 	floor_ = new Floor();
 	floor_->Initialize();
 
-	player_ = new Player();
-	player_->Initialize();
+	//player_ = new Player();
+	//player_->Initialize();
 	srand(time(NULL));
 
 	InitWaterflow();
@@ -84,7 +84,7 @@ void WaterGimmick::UpdateWaterFlow()
 			}
 		}
 	}
-	for (int i = 0; i < EMITTER_MAX; i++)
+	/*for (int i = 0; i < EMITTER_MAX; i++)
 	{
 		if (waterFlowIsActive[i] == true)
 		{
@@ -92,12 +92,12 @@ void WaterGimmick::UpdateWaterFlow()
 			waterFlowHit.y = player_->GetPlayerTransform().y - waterFlowPosY[i];
 			waterFlowHit.z = waterFlowHit.x * waterFlowHit.x + waterFlowHit.y * waterFlowHit.y;
 		}
-		if (waterFlowHit.z <= (player_->GetPlayerTransform().radius +waterFlowRadius[i]) * 
+		if (waterFlowHit.z <= (player_->GetPlayerTransform().radius + waterFlowRadius[i]) *
 			(player_->GetPlayerTransform().radius + waterFlowRadius[i]))
 		{
 			isHitWaterflow = true;
 		}
-	}
+	}*/
 
 }
 //ñAçXêV

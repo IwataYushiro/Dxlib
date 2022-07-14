@@ -38,7 +38,7 @@ private:
 	Floor* floor_ = nullptr;
 
 	//プレイヤー包含
-	Player* player_ = nullptr;
+	//Player* player_ = nullptr;
 
 	//水流をパーティクル生成するための変数
 	static const int EMITTER_MAX = 1500;			//最大個数

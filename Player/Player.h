@@ -42,7 +42,7 @@ private:
 	float moveSpeed;
 
 	//ŽdŠ|‚¯‚Ì”½‰f—p
-	WaterGimmick* waterGimmick_ = nullptr;
+	//WaterGimmick* waterGimmick_ = nullptr;
 
 	//‰j‚¢‚¾‚©
 	bool isSwim = true;

@@ -33,9 +33,6 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player\Player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -45,16 +42,13 @@
     <ClCompile Include="Scene\Floor.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player\Player.h">
-      <Filter>ヘッダー ファイル\player</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\GameScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Transform.h">
-      <Filter>ヘッダー ファイル\player</Filter>
     </ClInclude>
     <ClInclude Include="Global\Global.h">
       <Filter>ヘッダー ファイル\Global</Filter>
@@ -67,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="Global\Hit.h">
       <Filter>ヘッダー ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Transform.h">
+      <Filter>ヘッダー ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>ヘッダー ファイル\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

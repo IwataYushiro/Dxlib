@@ -4,7 +4,7 @@
 
 Player::~Player() {
 	delete floor_;
-	delete waterGimmick_;
+	///delete waterGimmick_;
 };
 
 //初期化
@@ -14,8 +14,8 @@ void Player::Initialize() {
 	floor_->Initialize();
 
 	//仕掛け初期化
-	waterGimmick_ = new WaterGimmick();
-	waterGimmick_->Initialize();
+	//waterGimmick_ = new WaterGimmick();
+	//waterGimmick_->Initialize();
 
 	this->transform.x = 32.0f;
 	this->transform.y = 32.0f;
@@ -33,7 +33,7 @@ void Player::Initialize() {
 //更新
 void Player::Update(char* key, char* oldkey) {
 	//マリオ風泳ぎ
-	if (isAlive)
+	if (isAlive==true)
 	{
 		MarioSwim(key, oldkey);
 	}
@@ -65,10 +65,10 @@ void Player::MarioSwim(char* key, char* oldkey) {
 		transform.x += moveSpeed;
 	}
 	//水流に飲み込まれた時
-	if (waterGimmick_->GetIsHitWaterflow() == true)
+	/*if (waterGimmick_->GetIsHitWaterflow() == true)
 	{
 		this->moveSpeed /= 2.0f;
-	}
+	}*/
 	//スペースキーを押した瞬間泳ぐ(床から離れている状態)
 	if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
 	{
@@ -114,7 +114,7 @@ void Player::Death(char* key, char* oldkey) {
 }
 //描画
 void Player::Draw() {
-	if (isAlive)
+	if (isAlive==true)
 	{
 		DrawAlive();
 	}
