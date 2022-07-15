@@ -44,22 +44,16 @@ void Player::Update(char* key, char* oldkey) {
 	{
 		MarioSwim(key, oldkey);
 		waterGimmick_->Update();
+
 	}
 	else
 	{
 		Death(key, oldkey);
 
 	}
-	for (int i = 0; i < waterGimmick_->GetEmitMax(); i++)
-	{
-		IsHitWaterFlow(waterGimmick_->GetWaterFlowTransform()[i], i);
-	}
-	//…—¬‚Éˆù‚İ‚Ü‚ê‚½
-	if (isHitWaterflow == true)
-	{
-		playerTransform.x -= 2.0f;
-		isHitWaterflow = false;
-	}
+	//…—¬
+	WaterFlow();
+
 	if (aliveCount <= 0.0f)
 	{
 		aliveCount = 0.0f;
@@ -128,12 +122,25 @@ void Player::IsHitWaterFlow(Transform& transform, int num)
 		(playerTransform.radius + transform.radius))
 	{
 		isHitWaterflow = true;
-
 	}
-	
-
 
 }
+//…—¬
+void Player::WaterFlow()
+{
+	for (int i = 0; i < waterGimmick_->GetEmitMax(); i++)
+	{
+		IsHitWaterFlow(waterGimmick_->GetWaterFlowTransform()[i], i);
+	}
+
+	//…—¬‚Éˆù‚İ‚Ü‚ê‚½
+	if (isHitWaterflow == true)
+	{
+		playerTransform.x -= 2.0f;
+		isHitWaterflow = false;
+	}
+}
+
 //€‚ñ‚¾‚ ‚Æ‚Ìˆ—
 void Player::Death(char* key, char* oldkey) {
 

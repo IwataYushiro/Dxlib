@@ -3,7 +3,7 @@
 
 GameScene::GameScene()
 {
-	this->bublleCount = 60.0f * 4.0f;
+	
 }
 
 GameScene::~GameScene()

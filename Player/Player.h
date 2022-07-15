@@ -17,12 +17,19 @@ public:
 
 	//マリオ風泳ぎ
 	void MarioSwim(char* key, char* oldkey);
+
 	//水流の当たり判定
 	void IsHitWaterFlow(Transform& transform, int num);
+	//水流
+	void WaterFlow();
+	
+	
 	//死んだあと
 	void Death(char* key, char* oldkey);
+
 	//描画
 	void Draw();
+	
 	//生きてるとき
 	void DrawAlive();
 	//窒息したとき
@@ -52,6 +59,7 @@ private:
 	bool isAlive;
 	//寿命
 	float aliveCount;
+	
 	//水流ヒット
 	bool isHitWaterflow;
 	//当たり判定用

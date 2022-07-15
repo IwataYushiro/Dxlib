@@ -31,7 +31,6 @@ private:
 	//水中ギミック包含
 	WaterGimmick* waterGimmick_ = nullptr;
 
-	//泡が出るカウント
-	float bublleCount;
+	
 };
 

@@ -16,6 +16,8 @@ void WaterGimmick::Initialize()
 	floor_->Initialize();
 	//êÖó¨èâä˙âª
 	InitWaterflow();
+	//ñAèâä˙âª
+	InitBubble();
 }
 
 //êÖó¨èâä˙âª
@@ -30,24 +32,52 @@ void WaterGimmick::InitWaterflow() {
 
 		this->waterFlowTransform[i].x = WIN_WIDTH - waterFlowWidth;		//Xç¿ïW
 		this->waterFlowTransform[i].y = WIN_HEIGHT - floor_->getFloorpos() - waterFlowHeight;			//Yç¿ïW
-		this->waterFlowTransform[i].radius = 5;		//êÖó¨ñAÇÃîºåa
+		this->waterFlowTransform[i].radius = 32;		//êÖó¨ñAÇÃîºåa
 		this->waterFlowSpeed[i] = 5;			//ë¨ìx
 		this->waterFlowBright[i] = 255;		//ñæÇÈÇ≥
 		this->waterFlowIsActive[i] = false;		//ê∂Ç´ÇƒÇÈÇ©
 	}
-	//ìñÇΩÇËîªíËóp
+	//ñAÇÃìñÇΩÇËîªíËóp
 	this->waterFlowHit.x = 0;
 	this->waterFlowHit.y = 0;
 	this->waterFlowHit.z = 0;
-
-	this->isHitWaterFlow = false;
 }
+
+//ñAèâä˙âª
+void WaterGimmick::InitBubble()
+{
+	//îÕàÕ
+	this->bubbleWidth = 200.0f;						//â°ïù
+	this->bubbleHeight = WIN_HEIGHT - floor_->getFloorpos();						//ècïù
+	//ñAèâä˙âª
+
+	this->bubbleTransform.x = waterFlowWidth;		//Xç¿ïW
+	this->bubbleTransform.y = waterFlowHeight;			//Yç¿ïW
+	this->bubbleTransform.radius = 5;		//êÖó¨ñAÇÃîºåa
+	this->bubbleSpeed = 5;			//ë¨ìx
+	this->bubbleBright = 255;		//ñæÇÈÇ≥
+	this->bubbleIsActive = false;		//ê∂Ç´ÇƒÇÈÇ©
+
+//êÖó¨ÇÃìñÇΩÇËîªíËóp
+	this->bubbleHit.x = 0;
+	this->bubbleHit.y = 0;
+	this->bubbleHit.z = 0;
+
+	//ñAÇ™èoÇÈÉ^ÉCÉ~ÉìÉO
+	this->bublleCount = 60.0f * 4.0f;
+}
+
+
+
+
+
 //çXêV
 void WaterGimmick::Update()
 {
 	//êÖó¨
 	UpdateWaterFlow();
 }
+
 //êÖó¨çXêV
 void WaterGimmick::UpdateWaterFlow()
 {
@@ -93,28 +123,18 @@ void WaterGimmick::UpdateBubble()
 
 }
 
-void WaterGimmick::IsHitWaterFlow(Transform transform, int num)
-{
-	if (waterFlowIsActive[num] == true)
-	{
-		waterFlowHit.x = transform.x - waterFlowTransform[num].x;
-		waterFlowHit.y = transform.y - waterFlowTransform[num].y;
-		waterFlowHit.z = waterFlowHit.x * waterFlowHit.x + waterFlowHit.y * waterFlowHit.y;
-	}
-	if (waterFlowHit.z <= (transform.radius + waterFlowTransform[num].radius) *
-		(transform.radius + waterFlowTransform[num].radius))
-	{
-		isHitWaterFlow = true;
-	}
 
-}
+
 //ï`âÊ
 void WaterGimmick::Draw()
 {
+	//êÖó¨ï`âÊ
 	for (int i = 0; i < EMITTER_MAX; i++)
 	{
 		DrawWaterFlow(i);
 	}
+	//ñAï`âÊ
+	DrawBubble();
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
@@ -127,4 +147,13 @@ void WaterGimmick::DrawWaterFlow(int num)
 		DrawCircle(waterFlowTransform[num].x, waterFlowTransform[num].y, waterFlowTransform[num].radius, GetColor(255, 255, 255), false);
 	}
 
+}
+
+//ñAï`âÊ
+void WaterGimmick::DrawBubble()
+{
+	if (bubbleIsActive==true)
+	{
+		DrawCircle(bubbleTransform.x, bubbleTransform.y, bubbleTransform.radius, GetColor(255, 255, 255), false);
+	}
 }
