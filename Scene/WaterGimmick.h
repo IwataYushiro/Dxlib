@@ -61,14 +61,13 @@ private://泡
 	float  bubbleHeight;						//縦幅
 	Transform bubbleTransform;				//座標
 	float  bubbleSpeed;						//速度
-	int    bubbleBright;						//明るさ
 	bool   bubbleIsActive;					//生きてるか
 		
 	//泡の当たり判定用
 	Hit bubbleHit;
 
 	//泡が出るカウント
-	float bublleCount;
+	float bubbleCount;
 
 };
 
