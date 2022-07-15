@@ -7,6 +7,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 {
 	//インスタンス生成
 	GameScene* gameScene = nullptr;
+
 	// ウィンドウモードに設定
 	ChangeWindowMode(TRUE);
 

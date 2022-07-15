@@ -53,9 +53,6 @@
     <ClInclude Include="Global\Global.h">
       <Filter>ヘッダー ファイル\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\WaterGimmick.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Floor.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -67,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Player\Player.h">
       <Filter>ヘッダー ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\WaterGimmick.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

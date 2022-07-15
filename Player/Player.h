@@ -4,13 +4,9 @@
 #include "Transform.h"
 #include "WaterGimmick.h"
 
-#include <stdlib.h>
-#include <time.h>
-
 class Player
 {
 public:
-
 	~Player();
 
 	//初期化
@@ -21,6 +17,8 @@ public:
 
 	//マリオ風泳ぎ
 	void MarioSwim(char* key, char* oldkey);
+	//水流の当たり判定
+	void IsHitWaterFlow(Transform& transform, int num);
 	//死んだあと
 	void Death(char* key, char* oldkey);
 	//描画
@@ -31,18 +29,18 @@ public:
 	void DrawChoking();
 
 	//プレイヤー情報のアクセッサ
-	Transform GetPlayerTransform() { return transform; }
+	Transform GetPlayerTransform() { return playerTransform; }
 
 private:
 	//床との当たり判定を得るために包含
 	Floor* floor_ = nullptr;
 
 	//プレイヤーの情報
-	Transform transform;
+	Transform playerTransform;
 	float moveSpeed;
 
 	//仕掛けの反映用
-	//WaterGimmick* waterGimmick_ = nullptr;
+	WaterGimmick* waterGimmick_ = nullptr;
 
 	//泳いだか
 	bool isSwim = true;
@@ -54,6 +52,9 @@ private:
 	bool isAlive;
 	//寿命
 	float aliveCount;
-
+	//水流ヒット
+	bool isHitWaterflow;
+	//当たり判定用
+	Hit playerWaterFlowHit;
 };
 

@@ -2,11 +2,9 @@
 #include "Floor.h"
 #include "Hit.h"
 #include "Global.h"
-#include "Player.h"
-#include "Transform.h"
-
 #include <stdlib.h>
 #include <time.h>
+#include <Transform.h>
 
 class WaterGimmick
 {
@@ -17,12 +15,14 @@ public:
 
 	//水流初期化
 	void InitWaterflow();
-	
+
 	//更新
 	void Update();
 
 	//水流更新
 	void UpdateWaterFlow();
+	//当たり判定
+	void IsHitWaterFlow(Transform transform, int num);
 	//泡更新
 	void UpdateBubble();
 	//描画
@@ -30,24 +30,22 @@ public:
 	//水流描画
 	void DrawWaterFlow(int num);
 
-	//アクセッサ
-	bool GetIsHitWaterflow() { return isHitWaterflow; }
-private:
+	//最大値
 
+	static const int GetEmitMax() { return EMITTER_MAX; }
+	//アクセッサ
+	Transform* GetWaterFlowTransform() { return waterFlowTransform; }
+	bool* GetIsActiveWaterFlow() { return waterFlowIsActive; }
+	bool GetIsHitWaterFlow() { return isHitWaterFlow; }
+private:
+	//水流をパーティクル生成するための変数
+	static const int EMITTER_MAX = 1500;			//最大個数
 	//床の情報を取得
 	Floor* floor_ = nullptr;
 
-	//プレイヤー包含
-	//Player* player_ = nullptr;
-
-	//水流をパーティクル生成するための変数
-	static const int EMITTER_MAX = 1500;			//最大個数
-
 	float  waterFlowWidth;						//横幅
 	float  waterFlowHeight;						//縦幅
-	float  waterFlowPosX[EMITTER_MAX];			//X座標
-	float  waterFlowPosY[EMITTER_MAX];			//Y座標
-	float  waterFlowRadius[EMITTER_MAX];		//水流泡の半径
+	Transform waterFlowTransform[EMITTER_MAX];	//座標
 	float  waterFlowSpeed[EMITTER_MAX];			//速度
 	int    waterFlowBright[EMITTER_MAX];		//明るさ
 	bool   waterFlowIsActive[EMITTER_MAX];		//生きてるか
@@ -55,6 +53,6 @@ private:
 	//水流の当たり判定用
 	Hit waterFlowHit;
 	//当たったか
-	bool isHitWaterflow;
+	bool isHitWaterFlow;
 };
 
