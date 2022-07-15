@@ -18,12 +18,12 @@ public:
 	//泡初期化
 	void InitBubble();
 	//更新
-	void Update();
+	void Update(Transform player);
 
 	//水流更新
 	void UpdateWaterFlow();
 	//泡更新
-	void UpdateBubble();
+	void UpdateBubble(Transform player);
 
 	//描画
 	void Draw();
@@ -34,9 +34,14 @@ public:
 	//最大値
 
 	static const int GetEmitMax() { return EMITTER_MAX; }
-	//アクセッサ
+	//アクセッサ(水流)
 	Transform* GetWaterFlowTransform() { return waterFlowTransform; }
-	bool* GetIsActiveWaterFlow() { return waterFlowIsActive; }
+	bool* GetIsActiveWaterFlow() { return isActiveWaterFlow; }
+
+	//アクセッサ(水流)
+	Transform GetBubbleTransform() { return bubbleTransform; }
+	bool GetIsActiveBubble() { return isActiveBubble; }
+	void SetIsActiveBubble(bool isActiveBubble) { this->isActiveBubble != isActiveBubble; }
 
 private://水流
 	//水流をパーティクル生成するための変数
@@ -49,11 +54,8 @@ private://水流
 	Transform waterFlowTransform[EMITTER_MAX];	//座標
 	float  waterFlowSpeed[EMITTER_MAX];			//速度
 	int    waterFlowBright[EMITTER_MAX];		//明るさ
-	bool   waterFlowIsActive[EMITTER_MAX];		//生きてるか
+	bool   isActiveWaterFlow[EMITTER_MAX];		//生きてるか
 
-	//水流の当たり判定用
-	Hit waterFlowHit;
-	
 
 private://泡
 
@@ -61,7 +63,7 @@ private://泡
 	float  bubbleHeight;						//縦幅
 	Transform bubbleTransform;				//座標
 	float  bubbleSpeed;						//速度
-	bool   bubbleIsActive;					//生きてるか
+	bool   isActiveBubble;					//生きてるか
 		
 	//泡の当たり判定用
 	Hit bubbleHit;

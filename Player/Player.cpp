@@ -27,14 +27,23 @@ void Player::Initialize() {
 	this->gravity = 6.0f;
 	this->isAlive = true;
 	this->aliveCount = 60.0f * 20.0f;
-	this->isHitWaterflow = false;
 
+	//êÖó¨
+	this->isHitWaterflow = false;
 	for (int i = 0; i < waterGimmick_->GetEmitMax(); i++)
 	{
-		this->playerWaterFlowHit.x = 0;
-		this->playerWaterFlowHit.y = 0;
-		this->playerWaterFlowHit.z = 0;
+		this->waterFlowHit.x = 0;
+		this->waterFlowHit.y = 0;
+		this->waterFlowHit.z = 0;
 	}
+
+	//ñA
+	this->isHitBubble = false;
+
+	this->bubbleHit.x = 0;
+	this->bubbleHit.y = 0;
+	this->bubbleHit.z = 0;
+
 }
 
 //çXêV
@@ -49,10 +58,12 @@ void Player::Update(char* key, char* oldkey) {
 	else
 	{
 		Death(key, oldkey);
-
 	}
+
 	//êÖó¨
 	WaterFlow();
+	//ñA
+	Bubble();
 
 	if (aliveCount <= 0.0f)
 	{
@@ -108,23 +119,6 @@ void Player::MarioSwim(char* key, char* oldkey) {
 	}
 }
 
-void Player::IsHitWaterFlow(Transform& transform, int num)
-{
-	//êÖó¨Ç™èoÇƒÇÈÇ∆Ç´
-	if (waterGimmick_->GetIsActiveWaterFlow()[num] == true)
-	{
-		playerWaterFlowHit.x = playerTransform.x - transform.x;
-		playerWaterFlowHit.y = playerTransform.y - transform.y;
-		playerWaterFlowHit.z = playerWaterFlowHit.x * playerWaterFlowHit.x + playerWaterFlowHit.y * playerWaterFlowHit.y;
-	}
-	//ìñÇΩÇ¡ÇƒÇÈÇ©
-	if (playerWaterFlowHit.z <= (playerTransform.radius + transform.radius) *
-		(playerTransform.radius + transform.radius))
-	{
-		isHitWaterflow = true;
-	}
-
-}
 //êÖó¨
 void Player::WaterFlow()
 {
@@ -140,7 +134,55 @@ void Player::WaterFlow()
 		isHitWaterflow = false;
 	}
 }
+//ìñÇΩÇËîªíËópä÷êî
+void Player::IsHitWaterFlow(Transform& transform, int num)
+{
+	//êÖó¨Ç™èoÇƒÇÈÇ∆Ç´
+	if (waterGimmick_->GetIsActiveWaterFlow()[num] == true)
+	{
+		waterFlowHit.x = playerTransform.x - transform.x;
+		waterFlowHit.y = playerTransform.y - transform.y;
+		waterFlowHit.z = waterFlowHit.x * waterFlowHit.x + waterFlowHit.y * waterFlowHit.y;
+	}
+	//ìñÇΩÇ¡ÇƒÇÈÇ©
+	if (waterFlowHit.z <= (playerTransform.radius + transform.radius) *
+		(playerTransform.radius + transform.radius))
+	{
+		isHitWaterflow = true;
+	}
 
+}
+
+//ñA
+void Player::Bubble()
+{
+	IsHitBubble(playerTransform);
+
+	if (isHitBubble==true)
+	{
+		isHitBubble = false;
+		aliveCount += 400;
+	}
+}
+//ìñÇΩÇËîªíËópä÷êî
+void Player::IsHitBubble(Transform transform)
+{
+	//ñAÇ™èoÇƒÇÈÇ∆Ç´
+	if (waterGimmick_->GetIsActiveBubble() == true)
+	{
+		bubbleHit.x = playerTransform.x - transform.x;
+		bubbleHit.y = playerTransform.y - transform.y;
+		bubbleHit.z = bubbleHit.x * bubbleHit.x + bubbleHit.y * bubbleHit.y;
+	}
+	//ìñÇΩÇ¡ÇƒÇÈÇ©
+	if (bubbleHit.z <= (playerTransform.radius + transform.radius) *
+		(playerTransform.radius + transform.radius))
+	{
+		isHitBubble = true;
+		
+	}
+
+}
 //éÄÇÒÇæÇ†Ç∆ÇÃèàóù
 void Player::Death(char* key, char* oldkey) {
 
@@ -151,8 +193,10 @@ void Player::Death(char* key, char* oldkey) {
 		playerTransform.radius = 16.0f;
 		isSwim = true;
 		isAlive = true;
-		isHitWaterflow = false;
 		aliveCount = 60.0f * 20.0f;
+		
+		isHitWaterflow = false;
+		isHitBubble = false;
 	}
 }
 //ï`âÊ

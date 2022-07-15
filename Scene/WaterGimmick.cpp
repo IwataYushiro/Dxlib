@@ -35,12 +35,8 @@ void WaterGimmick::InitWaterflow() {
 		this->waterFlowTransform[i].radius = 5;		//…—¬–A‚Ì”¼Œa
 		this->waterFlowSpeed[i] = 5;			//‘¬“x
 		this->waterFlowBright[i] = 255;		//–¾‚é‚³
-		this->waterFlowIsActive[i] = false;		//¶‚«‚Ä‚é‚©
+		this->isActiveWaterFlow[i] = false;		//¶‚«‚Ä‚é‚©
 	}
-	//–A‚Ì“–‚½‚è”»’è—p
-	this->waterFlowHit.x = 0;
-	this->waterFlowHit.y = 0;
-	this->waterFlowHit.z = 0;
 }
 
 //–A‰Šú‰»
@@ -55,7 +51,7 @@ void WaterGimmick::InitBubble()
 	this->bubbleTransform.y = waterFlowHeight;			//YÀ•W
 	this->bubbleTransform.radius = 32;		//…—¬–A‚Ì”¼Œa
 	this->bubbleSpeed = 5;			//‘¬“x
-	this->bubbleIsActive = false;		//¶‚«‚Ä‚é‚©
+	this->isActiveBubble = false;		//¶‚«‚Ä‚é‚©
 
 	//…—¬‚Ì“–‚½‚è”»’è—p
 	this->bubbleHit.x = 0;
@@ -71,12 +67,12 @@ void WaterGimmick::InitBubble()
 
 
 //XV
-void WaterGimmick::Update()
+void WaterGimmick::Update(Transform player)
 {
 	//…—¬
 	UpdateWaterFlow();
 	//–AXV
-	UpdateBubble();
+	UpdateBubble(player);
 	
 }
 
@@ -86,9 +82,9 @@ void WaterGimmick::UpdateWaterFlow()
 	for (int i = 0; i < EMITTER_MAX; i++)
 	{
 
-		if (waterFlowIsActive[i] == false)
+		if (isActiveWaterFlow[i] == false)
 		{
-			waterFlowIsActive[i] = true;
+			isActiveWaterFlow[i] = true;
 			waterFlowTransform[i].x = WIN_WIDTH;
 			waterFlowTransform[i].y = floor_->getFloorpos() - waterFlowHeight;
 			if (i % 2 == 0)
@@ -100,7 +96,7 @@ void WaterGimmick::UpdateWaterFlow()
 	for (int i = 0; i < EMITTER_MAX; i++)
 	{
 
-		if (waterFlowIsActive[i] == true)
+		if (isActiveWaterFlow[i] == true)
 		{
 			waterFlowBright[i] -= 2;
 			waterFlowTransform[i].x -= waterFlowSpeed[i];
@@ -108,34 +104,35 @@ void WaterGimmick::UpdateWaterFlow()
 		}
 		if (waterFlowBright[i] <= 0)
 		{
-			waterFlowIsActive[i] = false;
+			isActiveWaterFlow[i] = false;
 			waterFlowBright[i] = 255;
 		}
 	}
 }
 
 //–AXV
-void WaterGimmick::UpdateBubble()
+void WaterGimmick::UpdateBubble(Transform player)
 {
-	if (bubbleIsActive == false)
+	if (isActiveBubble == false)
 	{
-		bubbleIsActive = true;
+		isActiveBubble = true;
 		bubbleTransform.x = bubbleWidth;
 		bubbleTransform.y = bubbleHeight;
 	}
-	
-	if (bubbleIsActive == true)
+
+	if (isActiveBubble == true)
 	{
 		bubbleTransform.y -= bubbleSpeed;
 
 	}
-	if (bubbleTransform.y < 0.0f && bubbleCount < 0.0f)
+	if (bubbleTransform.y < 0.0f && bubbleCount < 0.0f||player)
 	{
 		bubbleTransform.x = bubbleWidth;
 		bubbleTransform.y = bubbleHeight;
-		bubbleIsActive = false;
+		isActiveBubble = false;
 		bubbleCount = rand() % 150 + 50;
 	}
+
 	bubbleCount--;
 
 }
@@ -160,7 +157,7 @@ void WaterGimmick::Draw()
 //…—¬•`‰æ
 void WaterGimmick::DrawWaterFlow(int num)
 {
-	if (waterFlowIsActive[num] == true)
+	if (isActiveWaterFlow[num] == true)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, waterFlowBright[num]);
 		DrawCircle(waterFlowTransform[num].x, waterFlowTransform[num].y, waterFlowTransform[num].radius, GetColor(255, 255, 255), false);
@@ -171,7 +168,7 @@ void WaterGimmick::DrawWaterFlow(int num)
 //–A•`‰æ
 void WaterGimmick::DrawBubble()
 {
-	if (bubbleIsActive == true)
+	if (isActiveBubble == true)
 	{
 		DrawCircle(bubbleTransform.x, bubbleTransform.y, bubbleTransform.radius, GetColor(255, 255, 255), false);
 	}
