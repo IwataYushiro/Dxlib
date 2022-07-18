@@ -11,6 +11,12 @@ public:
 
 	//初期化
 	void Initialize();
+	//プレイヤー情報
+	void InitPlayer();
+	//水流
+	void InitWaterflow();
+	//泡
+	void InitBubble();
 
 	//更新
 	void Update(char* key, char* oldkey);
@@ -25,9 +31,6 @@ public:
 	
 	//泡
 	void Bubble();
-	//当たり判定用関数
-	void IsHitBubble(Transform transform);
-
 	//死んだあと
 	void Death(char* key, char* oldkey);
 
@@ -41,7 +44,8 @@ public:
 
 	//プレイヤー情報のアクセッサ
 	Transform GetPlayerTransform() { return playerTransform; }
-
+	//当たり判定のアクセッサ
+	bool& GetIsHitBubble() { return isHitBubble; }
 private:
 	//床との当たり判定を得るために包含
 	Floor* floor_ = nullptr;
@@ -62,7 +66,7 @@ private:
 	//生きてるか
 	bool isAlive;
 	//寿命
-	float aliveCount;
+	int aliveCount;
 	
 	//水流
 	//当たったか

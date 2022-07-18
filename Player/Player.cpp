@@ -16,7 +16,18 @@ void Player::Initialize() {
 	//仕掛け初期化
 	waterGimmick_ = new WaterGimmick();
 	waterGimmick_->Initialize();
+	//プレイヤー情報
+	InitPlayer();
+	//水流
+	InitWaterflow();
+	//泡
+	InitBubble();
 
+}
+
+//プレイヤー情報
+void Player::InitPlayer()
+{
 	//プレイヤー情報初期化
 	this->playerTransform.x = 32.0f;
 	this->playerTransform.y = 32.0f;
@@ -26,8 +37,12 @@ void Player::Initialize() {
 	this->isSwim = true;
 	this->gravity = 6.0f;
 	this->isAlive = true;
-	this->aliveCount = 60.0f * 20.0f;
+	this->aliveCount = 60 * 20;
+}
 
+//水流
+void Player::InitWaterflow()
+{
 	//水流
 	this->isHitWaterflow = false;
 	for (int i = 0; i < waterGimmick_->GetEmitMax(); i++)
@@ -37,13 +52,17 @@ void Player::Initialize() {
 		this->waterFlowHit.z = 0;
 	}
 
+}
+//泡
+void Player::InitBubble()
+{
+
 	//泡
 	this->isHitBubble = false;
 
 	this->bubbleHit.x = 0;
 	this->bubbleHit.y = 0;
 	this->bubbleHit.z = 0;
-
 }
 
 //更新
@@ -52,7 +71,11 @@ void Player::Update(char* key, char* oldkey) {
 	if (isAlive == true)
 	{
 		MarioSwim(key, oldkey);
-		waterGimmick_->Update();
+		waterGimmick_->Update(isHitBubble);
+		//水流
+		WaterFlow();
+		//泡
+		Bubble();
 
 	}
 	else
@@ -60,14 +83,10 @@ void Player::Update(char* key, char* oldkey) {
 		Death(key, oldkey);
 	}
 
-	//水流
-	WaterFlow();
-	//泡
-	Bubble();
 
-	if (aliveCount <= 0.0f)
+	if (aliveCount <= 0)
 	{
-		aliveCount = 0.0f;
+		aliveCount = 0;
 		isAlive = false;
 		isHitWaterflow = false;
 	}
@@ -156,33 +175,15 @@ void Player::IsHitWaterFlow(Transform& transform, int num)
 //泡
 void Player::Bubble()
 {
-	IsHitBubble(playerTransform);
+	waterGimmick_->IsHitBubble(playerTransform, isHitBubble);
 
-	if (isHitBubble==true)
+	if (isHitBubble == true)
 	{
 		isHitBubble = false;
-		aliveCount += 400;
+		aliveCount = 60 * 20;
 	}
 }
-//当たり判定用関数
-void Player::IsHitBubble(Transform transform)
-{
-	//泡が出てるとき
-	if (waterGimmick_->GetIsActiveBubble() == true)
-	{
-		bubbleHit.x = playerTransform.x - transform.x;
-		bubbleHit.y = playerTransform.y - transform.y;
-		bubbleHit.z = bubbleHit.x * bubbleHit.x + bubbleHit.y * bubbleHit.y;
-	}
-	//当たってるか
-	if (bubbleHit.z <= (playerTransform.radius + transform.radius) *
-		(playerTransform.radius + transform.radius))
-	{
-		isHitBubble = true;
-		
-	}
 
-}
 //死んだあとの処理
 void Player::Death(char* key, char* oldkey) {
 
@@ -193,8 +194,8 @@ void Player::Death(char* key, char* oldkey) {
 		playerTransform.radius = 16.0f;
 		isSwim = true;
 		isAlive = true;
-		aliveCount = 60.0f * 20.0f;
-		
+		aliveCount = 60 * 20;
+
 		isHitWaterflow = false;
 		isHitBubble = false;
 	}
@@ -210,7 +211,7 @@ void Player::Draw() {
 		DrawChoking();
 	}
 
-	DrawFormatString(0, 0, GetColor(0, 0, 0), "Life::%f", aliveCount);
+	DrawFormatString(0, 0, GetColor(0, 0, 0), "Life::%d", aliveCount);
 }
 //生きてるとき
 void Player::DrawAlive()

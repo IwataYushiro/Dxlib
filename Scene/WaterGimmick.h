@@ -18,12 +18,12 @@ public:
 	//泡初期化
 	void InitBubble();
 	//更新
-	void Update(Transform player);
+	void Update(bool& isHitBubble);
 
 	//水流更新
 	void UpdateWaterFlow();
 	//泡更新
-	void UpdateBubble(Transform player);
+	void UpdateBubble(bool& isHit);
 
 	//描画
 	void Draw();
@@ -31,6 +31,8 @@ public:
 	void DrawWaterFlow(int num);
 	//泡描画
 	void DrawBubble();
+	//当たり判定
+	void IsHitBubble(Transform& transform, bool& isHit);
 	//最大値
 
 	static const int GetEmitMax() { return EMITTER_MAX; }
@@ -69,7 +71,7 @@ private://泡
 	Hit bubbleHit;
 
 	//泡が出るカウント
-	float bubbleCount;
+	int bubbleCount;
 
 };
 

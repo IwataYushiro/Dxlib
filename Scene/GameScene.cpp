@@ -41,7 +41,7 @@ void GameScene::Update() {
 	//XVˆ—
 	player_->Update(keys, oldkeys);
 	//ŽdŠ|‚¯
-	waterGimmick_->Update();
+	waterGimmick_->Update(player_->GetIsHitBubble());
 }
 
 //•`‰æ
