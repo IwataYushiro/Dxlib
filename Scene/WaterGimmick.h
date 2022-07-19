@@ -17,16 +17,20 @@ public:
 	void InitWaterflow();
 	//泡初期化
 	void InitBubble();
+
 	//更新
-	void Update(bool& isHitBubble);
+	void MarioUpdate(bool& isHitBubble);
+	void SonicUpdate(bool& isHitBubble);
 
 	//水流更新
-	void UpdateWaterFlow();
+	void UpdateWaterFlow(float floorPos);
 	//泡更新
 	void UpdateBubble(bool& isHit);
 
 	//描画
-	void Draw();
+	void MarioDraw();
+	void SonicDraw();
+
 	//水流描画
 	void DrawWaterFlow(int num);
 	//泡描画
@@ -43,7 +47,6 @@ public:
 	//アクセッサ(水流)
 	Transform GetBubbleTransform() { return bubbleTransform; }
 	bool GetIsActiveBubble() { return isActiveBubble; }
-	void SetIsActiveBubble(bool isActiveBubble) { this->isActiveBubble != isActiveBubble; }
 
 private://水流
 	//水流をパーティクル生成するための変数

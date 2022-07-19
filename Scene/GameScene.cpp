@@ -3,7 +3,10 @@
 
 GameScene::GameScene()
 {
-	
+	player_ = new Player();
+	floor_ = new Floor();
+	waterGimmick_ = new WaterGimmick();
+
 }
 
 GameScene::~GameScene()
@@ -15,14 +18,21 @@ GameScene::~GameScene()
 
 //‰Šú‰»
 void GameScene::Initialize() {
-	floor_ = new Floor();
+
 	floor_->Initialize();
-
-	player_ = new Player();
-	player_->Initialize();
-
-	waterGimmick_ = new WaterGimmick();
 	waterGimmick_->Initialize();
+	playerJump = mario;
+
+	switch (playerJump)
+	{
+	case mario:
+		player_->MarioInitialize();
+		break;
+	case sonic:
+		player_->SonicInitialize();
+		break;
+	}
+
 }
 //XV
 void GameScene::Update() {
@@ -39,19 +49,63 @@ void GameScene::Update() {
 	ClearDrawScreen();
 
 	//XVˆ—
-	player_->Update(keys, oldkeys);
-	//ŽdŠ|‚¯
-	waterGimmick_->Update(player_->GetIsHitBubble());
+	switch (playerJump)
+	{
+	case mario:
+		player_->MarioUpdate(keys, oldkeys);
+		//ŽdŠ|‚¯
+		waterGimmick_->MarioUpdate(player_->GetIsHitBubble());
+		if (keys[KEY_INPUT_1] && !oldkeys[KEY_INPUT_1])
+		{
+			player_->Reset();
+			playerJump = sonic;
+			break;
+		}
+
+	case sonic:
+		player_->SonicUpdate(keys, oldkeys);
+		//ŽdŠ|‚¯
+		waterGimmick_->SonicUpdate(player_->GetIsHitBubble());
+		if (keys[KEY_INPUT_1] && !oldkeys[KEY_INPUT_1])
+		{
+			player_->Reset();
+			playerJump = mario;
+			break;
+		}
+	}
+
 }
 
 //•`‰æ
 void GameScene::Draw() {
-	//ƒvƒŒƒCƒ„[•`‰æ
-	player_->Draw();
-	//ŽdŠ|‚¯
-	waterGimmick_->Draw();
-	// ‚±‚±‚Ü‚Å
+
+
+	switch (playerJump)
+	{
+
+	case mario:
+		//ŽdŠ|‚¯
+		waterGimmick_->MarioDraw();
+		// ‚±‚±‚Ü‚Å
+		//ƒvƒŒƒCƒ„[•`‰æ
+		player_->DrawMario();
+		//°‚ð•`‰æ
+		floor_->DrawMarioFloor();
+		DrawString(0, 150, "mario", GetColor(255, 0, 0));
+		break;
+
+	case sonic:
+		//ŽdŠ|‚¯
+		waterGimmick_->SonicDraw();
+		// ‚±‚±‚Ü‚Å
+		//ƒvƒŒƒCƒ„[•`‰æ
+		player_->DrawSonic();
+		//°‚ð•`‰æ
+		floor_->DrawSonicFloor();
+
+		DrawString(0, 150, "sonic", GetColor(0, 255, 0));
+		break;
 	
-	//°‚ð•`‰æ
-	floor_->DrawFloor();
+	}
+
 }

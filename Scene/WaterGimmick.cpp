@@ -31,7 +31,7 @@ void WaterGimmick::InitWaterflow() {
 	{
 
 		this->waterFlowTransform[i].x = WIN_WIDTH - waterFlowWidth;		//XÀ•W
-		this->waterFlowTransform[i].y = floor_->getFloorpos() - waterFlowHeight;			//YÀ•W
+		this->waterFlowTransform[i].y = floor_->getMarioFloorpos() - waterFlowHeight;			//YÀ•W
 		this->waterFlowTransform[i].radius = 5.0f;		//…—¬–A‚Ì”¼Œa
 		this->waterFlowSpeed[i] = 5.0f;			//‘¬“x
 		this->waterFlowBright[i] = 255;		//–¾‚é‚³
@@ -44,7 +44,7 @@ void WaterGimmick::InitBubble()
 {
 	//”ÍˆÍ
 	this->bubbleWidth = 200.0f;														//‰¡•
-	this->bubbleHeight = floor_->getFloorpos();						//c•
+	this->bubbleHeight = WIN_HEIGHT;						//c•
 	//–A‰Šú‰»
 
 	this->bubbleTransform.x = bubbleWidth;		//XÀ•W
@@ -63,17 +63,23 @@ void WaterGimmick::InitBubble()
 }
 
 //XV
-void WaterGimmick::Update(bool& isHitBubble)
+void WaterGimmick::MarioUpdate(bool& isHitBubble)
 {
 	//…—¬
-	UpdateWaterFlow();
+	UpdateWaterFlow(floor_->getMarioFloorpos());
+	//–AXV
+	UpdateBubble(isHitBubble);
+
+}
+void WaterGimmick::SonicUpdate(bool& isHitBubble)
+{
 	//–AXV
 	UpdateBubble(isHitBubble);
 
 }
 
 //…—¬XV
-void WaterGimmick::UpdateWaterFlow()
+void WaterGimmick::UpdateWaterFlow(float floorPos)
 {
 	for (int i = 0; i < EMITTER_MAX; i++)
 	{
@@ -82,7 +88,7 @@ void WaterGimmick::UpdateWaterFlow()
 		{
 			isActiveWaterFlow[i] = true;
 			waterFlowTransform[i].x = WIN_WIDTH;
-			waterFlowTransform[i].y = floor_->getFloorpos() - waterFlowHeight;
+			waterFlowTransform[i].y = floorPos - waterFlowHeight;
 			if (i % 2 == 0)
 			{
 				break;
@@ -166,7 +172,7 @@ void WaterGimmick::IsHitBubble(Transform& transform, bool& isHit)
 }
 
 //•`‰æ
-void WaterGimmick::Draw()
+void WaterGimmick::MarioDraw()
 {
 	//…—¬•`‰æ
 	for (int i = 0; i < EMITTER_MAX; i++)
@@ -175,6 +181,14 @@ void WaterGimmick::Draw()
 	}
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	//–A•`‰æ
+
+	DrawBubble();
+
+	DrawFormatString(0, 60, GetColor(255, 255, 255), "bubble::%d", bubbleCount);
+}
+void WaterGimmick::SonicDraw()
+{
 	//–A•`‰æ
 
 	DrawBubble();

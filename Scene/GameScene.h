@@ -1,5 +1,6 @@
 #pragma once
 #include "Floor.h"
+#include "Global.h"
 #include "Player.h"
 #include "WaterGimmick.h"
 
@@ -17,6 +18,8 @@ public:
 	void Draw();
 
 private:
+	
+	int playerJump;
 
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };

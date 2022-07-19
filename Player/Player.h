@@ -7,10 +7,13 @@
 class Player
 {
 public:
+	Player();
 	~Player();
 
 	//初期化
-	void Initialize();
+	void MarioInitialize();
+	void SonicInitialize();
+
 	//プレイヤー情報
 	void InitPlayer();
 	//水流
@@ -19,26 +22,36 @@ public:
 	void InitBubble();
 
 	//更新
-	void Update(char* key, char* oldkey);
+	void MarioUpdate(char* key, char* oldkey);
+	void SonicUpdate(char* key, char* oldkey);
 
+	//泳ぎ方の全体設定
+	void SwimProperty(char* key, char* oldkey);
 	//マリオ風泳ぎ
 	void MarioSwim(char* key, char* oldkey);
+	//ソニック風
+	void SonicSwim(char* key, char* oldkey);
 
 	//水流
 	void WaterFlow();
 	//当たり判定用関数
 	void IsHitWaterFlow(Transform& transform, int num);
-	
+
 	//泡
 	void Bubble();
 	//死んだあと
 	void Death(char* key, char* oldkey);
+	//ジャンプチェンジ時のリセット
+	void Reset();
 
 	//描画
-	void Draw();
-	
+	void DrawMario();
+	void DrawSonic();
+
 	//生きてるとき
-	void DrawAlive();
+	void DrawMarioAlive();
+	void DrawSonicAlive();
+
 	//窒息したとき
 	void DrawChoking();
 
@@ -58,8 +71,8 @@ private:
 	WaterGimmick* waterGimmick_ = nullptr;
 
 	//泳いだか
-	bool isSwim = true;
-	//浮力
+	bool isSwim;
+	//浮力(変わらない)
 	const float buoyancy = 6.0f;
 	//重力
 	float gravity;
@@ -67,7 +80,7 @@ private:
 	bool isAlive;
 	//寿命
 	int aliveCount;
-	
+
 	//水流
 	//当たったか
 	bool isHitWaterflow;
