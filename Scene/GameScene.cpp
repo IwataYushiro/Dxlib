@@ -20,19 +20,9 @@ GameScene::~GameScene()
 void GameScene::Initialize() {
 
 	floor_->Initialize();
+	player_->Initialize();
 	waterGimmick_->Initialize();
 	playerJump = mario;
-
-	switch (playerJump)
-	{
-	case mario:
-		player_->MarioInitialize();
-		break;
-	case sonic:
-		player_->SonicInitialize();
-		break;
-	}
-
 }
 //XV
 void GameScene::Update() {
@@ -54,7 +44,7 @@ void GameScene::Update() {
 	case mario:
 		player_->MarioUpdate(keys, oldkeys);
 		//ŽdŠ|‚¯
-		waterGimmick_->MarioUpdate(player_->GetIsHitBubble());
+		waterGimmick_->MarioUpdate(player_->GetIsHitBubble()[0]);
 		if (keys[KEY_INPUT_1] && !oldkeys[KEY_INPUT_1])
 		{
 			player_->Reset();
@@ -65,7 +55,7 @@ void GameScene::Update() {
 	case sonic:
 		player_->SonicUpdate(keys, oldkeys);
 		//ŽdŠ|‚¯
-		waterGimmick_->SonicUpdate(player_->GetIsHitBubble());
+		waterGimmick_->SonicUpdate(player_->GetIsHitBubble()[1]);
 		if (keys[KEY_INPUT_1] && !oldkeys[KEY_INPUT_1])
 		{
 			player_->Reset();
@@ -85,7 +75,7 @@ void GameScene::Draw() {
 
 	case mario:
 		//ŽdŠ|‚¯
-		waterGimmick_->MarioDraw();
+		waterGimmick_->DrawMario();
 		// ‚±‚±‚Ü‚Å
 		//ƒvƒŒƒCƒ„[•`‰æ
 		player_->DrawMario();
@@ -96,7 +86,7 @@ void GameScene::Draw() {
 
 	case sonic:
 		//ŽdŠ|‚¯
-		waterGimmick_->SonicDraw();
+		waterGimmick_->DrawSonic();
 		// ‚±‚±‚Ü‚Å
 		//ƒvƒŒƒCƒ„[•`‰æ
 		player_->DrawSonic();

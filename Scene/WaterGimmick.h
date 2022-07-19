@@ -25,18 +25,21 @@ public:
 	//水流更新
 	void UpdateWaterFlow(float floorPos);
 	//泡更新
-	void UpdateBubble(bool& isHit);
+	void UpdateMarioBubble(bool& isHit);
+	void UpdateSonicBubble(bool& isHit);
 
 	//描画
-	void MarioDraw();
-	void SonicDraw();
+	void DrawMario();
+	void DrawSonic();
 
 	//水流描画
 	void DrawWaterFlow(int num);
 	//泡描画
-	void DrawBubble();
+	void DrawMarioBubble();
+	void DrawSonicBubble();
 	//当たり判定
-	void IsHitBubble(Transform& transform, bool& isHit);
+	void IsHitBubbleMario(Transform& transform, bool& isHit);
+	void IsHitBubbleSonic(Transform& transform, bool& isHit);
 	//最大値
 
 	static const int GetEmitMax() { return EMITTER_MAX; }
@@ -45,7 +48,7 @@ public:
 	bool* GetIsActiveWaterFlow() { return isActiveWaterFlow; }
 
 	//アクセッサ(水流)
-	Transform GetBubbleTransform() { return bubbleTransform; }
+	Transform* GetBubbleTransform() { return bubbleTransform; }
 	bool GetIsActiveBubble() { return isActiveBubble; }
 
 private://水流
@@ -64,17 +67,17 @@ private://水流
 
 private://泡
 
-	float  bubbleWidth;						//横幅
-	float  bubbleHeight;						//縦幅
-	Transform bubbleTransform;				//座標
-	float  bubbleSpeed;						//速度
-	bool   isActiveBubble;					//生きてるか
+	float  bubbleWidth[jumpLength];						//横幅
+	float  bubbleHeight[jumpLength];						//縦幅
+	Transform bubbleTransform[jumpLength];				//座標
+	float  bubbleSpeed[jumpLength];						//速度
+	bool   isActiveBubble[jumpLength];					//生きてるか
 		
 	//泡の当たり判定用
-	Hit bubbleHit;
+	Hit bubbleHit[jumpLength];
 
 	//泡が出るカウント
-	int bubbleCount;
+	int bubbleCount[jumpLength];
 
 };
 

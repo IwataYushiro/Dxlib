@@ -15,5 +15,5 @@ enum Jump//ƒWƒƒƒ“ƒv•û®
 	sonic,
 	rockman
 };
-
+static const int jumpLength = 2;
 
