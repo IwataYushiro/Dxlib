@@ -43,8 +43,8 @@ public:
 	//–A•`‰æ
 	void DrawMarioBubble();
 	void DrawSonicBubble();
-	//•‚—V‰QŠª•`‰æ
-	void DrawFloating();
+	//•‚—V…—¬•`‰æ
+	void DrawFloating(int num);
 
 	//“–‚½‚è”»’è
 	void IsHitBubbleMario(Transform& transform, bool& isHit);
@@ -59,8 +59,11 @@ public:
 	bool* GetIsActiveWaterFlow() { return isActiveWaterFlow; }
 
 	//ƒAƒNƒZƒbƒT(–A)
-	Transform* GetBubbleTransform() { return bubbleTransform; }
-	bool* GetIsActiveBubble() { return isActiveBubble; }
+	Transform GetMarioBubbleTransform() { return bubbleTransform[mario]; }
+	bool GetMarioIsActiveBubble() { return isActiveBubble[mario]; }
+
+	Transform GetSonicBubbleTransform() { return bubbleTransform[sonic]; }
+	bool GetSonicIsActiveBubble() { return isActiveBubble[sonic]; }
 
 	//ƒAƒNƒZƒbƒT(•‚—V‰QŠª)
 	Transform* GetFloatingTransform() { return floatingTransform; }
