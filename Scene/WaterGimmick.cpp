@@ -119,31 +119,32 @@ void WaterGimmick::UpdateWaterFlow(float floorPos)
 //泡更新
 void WaterGimmick::UpdateMarioBubble(bool& isHit)
 {
-		if (bubbleCount[0] <= 0)
+	if (bubbleCount[0] <= 0)
+	{
+		bubbleCount[0] = 0;
+		isActiveBubble[0] = true;
+	}
+	if (isActiveBubble[0] == true)
+	{
+		if (isHit == false)
 		{
-			bubbleCount[0] = 0;
-			isActiveBubble[0] = true;
+			bubbleTransform[0].y -= bubbleSpeed[0];
 		}
-		if (isActiveBubble[0] == true)
-		{
-			if (isHit == false)
-			{
-				bubbleTransform[0].y -= bubbleSpeed[0];
-			}
 
-			if (bubbleTransform[0].y <= 0.0f || isHit == true)
-			{
-				bubbleTransform[0].x = bubbleWidth[0];
-				bubbleTransform[0].y = bubbleHeight[0];
-				isActiveBubble[0] = false;
-				isHit = false;
-			}
-		}
-		else
+		if (bubbleTransform[0].y <= 0.0f || isHit == true)
 		{
-
-			bubbleCount[0]--;
+			bubbleTransform[0].x = bubbleWidth[0];
+			bubbleTransform[0].y = bubbleHeight[0];
+			isActiveBubble[0] = false;
+			bubbleCount[0] = 60 * 4;
+			isHit = false;
 		}
+	}
+	else
+	{
+
+		bubbleCount[0]--;
+	}
 }
 
 void WaterGimmick::UpdateSonicBubble(bool& isHit)
@@ -165,6 +166,7 @@ void WaterGimmick::UpdateSonicBubble(bool& isHit)
 			bubbleTransform[1].x = bubbleWidth[1];
 			bubbleTransform[1].y = bubbleHeight[1];
 			isActiveBubble[1] = false;
+			bubbleCount[1] = 60 * 4;
 			isHit = false;
 		}
 	}
@@ -178,28 +180,25 @@ void WaterGimmick::UpdateSonicBubble(bool& isHit)
 //当たり判定用関数
 void WaterGimmick::IsHitBubbleMario(Transform& transform, bool& isHit)
 {
-		bubbleHit[0].x = transform.x - bubbleTransform[0].x;
-		bubbleHit[0].y = transform.y - bubbleTransform[0].y;
-		bubbleHit[0].z = bubbleHit[0].x * bubbleHit[0].x + bubbleHit[0].y * bubbleHit[0].y;
-		//泡が出てるとき
-		if (isActiveBubble[0] == true && isHit == false)
+	bubbleHit[0].x = transform.x - bubbleTransform[0].x;
+	bubbleHit[0].y = transform.y - bubbleTransform[0].y;
+	bubbleHit[0].z = bubbleHit[0].x * bubbleHit[0].x + bubbleHit[0].y * bubbleHit[0].y;
+	//泡が出てるとき
+	if (isActiveBubble[0] == true && isHit == false)
+	{
+		//当たってるか
+		if (bubbleHit[0].z <= (bubbleTransform[0].radius + transform.radius) *
+			(bubbleTransform[0].radius + transform.radius))
 		{
-			//当たってるか
-			if (bubbleHit[0].z <= (bubbleTransform[0].radius + transform.radius) *
-				(bubbleTransform[0].radius + transform.radius))
-			{
-				isHit = true;
-			}
-
-		}
-		if (isHit == true)
-		{
-			isActiveBubble[0] = false;
-
+			isHit = true;
 		}
 
-		DrawFormatString(0, 90, GetColor(255, 255, 255), "bubble::%f,%f,%f", bubbleHit[0].x, bubbleHit[0].y, bubbleHit[0].z);
-		DrawFormatString(0, 120, GetColor(255, 255, 255), "pt,bt::%f,%f", transform.y, bubbleTransform[0].y);
+	}
+	if (isHit == true)
+	{
+		isActiveBubble[0] = false;
+
+	}
 }
 
 void WaterGimmick::IsHitBubbleSonic(Transform& transform, bool& isHit)
@@ -223,11 +222,43 @@ void WaterGimmick::IsHitBubbleSonic(Transform& transform, bool& isHit)
 		isActiveBubble[1] = false;
 
 	}
-
-	DrawFormatString(0, 90, GetColor(255, 255, 255), "bubble::%f,%f,%f", bubbleHit[1].x, bubbleHit[1].y, bubbleHit[1].z);
-	DrawFormatString(0, 120, GetColor(255, 255, 255), "pt,bt::%f,%f", transform.y, bubbleTransform[1].y);
 }
+//リセット
+void WaterGimmick::Reset()
+{
+	waterFlowWidth = 200.0f;
+	waterFlowHeight = 10.0f;
 
+	for (int i = 0; i < jumpLength; i++)
+	{
+		waterFlowTransform[i].x = WIN_WIDTH - waterFlowWidth;		//X座標
+		waterFlowTransform[i].y = floor_->getMarioFloorpos() - waterFlowHeight;
+		waterFlowTransform[i].radius = 5.0f;		//水流泡の半径
+		waterFlowSpeed[i] = 5.0f;			//速度
+		waterFlowBright[i] = 255;		//明るさ
+		isActiveWaterFlow[i] = false;		//生きてるか
+
+
+		//範囲
+		bubbleWidth[i] = 200.0f;														//横幅
+		bubbleHeight[i] = WIN_HEIGHT;						//縦幅
+		//泡初期化
+
+		bubbleTransform[i].x = bubbleWidth[i];		//X座標
+		bubbleTransform[i].y = bubbleHeight[i];			//Y座標
+		bubbleTransform[i].radius = 32.0f;		//水流泡の半径
+		bubbleSpeed[i] = 5.0f;			//速度
+		isActiveBubble[i] = false;		//生きてるか
+
+		//泡の当たり判定用
+		bubbleHit[i].x = 0.0f;
+		bubbleHit[i].y = 0.0f;
+		bubbleHit[i].z = 0.0f;
+
+		//泡が出るタイミング
+		bubbleCount[i] = 60 * 4;
+	}
+}
 //描画
 void WaterGimmick::DrawMario()
 {

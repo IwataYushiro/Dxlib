@@ -39,7 +39,8 @@ public:
 	void BubbleSonic();
 
 	//死んだあと
-	void Death(char* key, char* oldkey);
+	void DeathMario(char* key, char* oldkey);
+	void DeathSonic(char* key, char* oldkey);
 	//ジャンプチェンジ時のリセット
 	void Reset();
 
@@ -52,8 +53,8 @@ public:
 	void DrawSonicAlive();
 
 	//窒息したとき
-	void DrawChoking();
-
+	void DrawMarioChoking();
+	void DrawSonicChoking();
 	//プレイヤー情報のアクセッサ
 	Transform* GetPlayerTransform() { return playerTransform; }
 	//当たり判定のアクセッサ
@@ -63,7 +64,6 @@ private:
 	Floor* floor_ = nullptr;
 
 	//プレイヤーの情報
-
 
 	Transform playerTransform[jumpLength];
 	float moveSpeed[jumpLength];
@@ -82,13 +82,13 @@ private:
 	//寿命
 	int aliveCount[jumpLength];
 
-	//水流
+	//水流(マリオ風)
 	//当たったか
 	bool isHitWaterflow;
 	//当たり判定用
 	Hit waterFlowHit;
 
-	//泡
+	//泡(共通)
 	//当たったか
 	bool isHitBubble[jumpLength];
 	//当たり判定用

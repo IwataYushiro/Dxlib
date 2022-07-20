@@ -52,9 +52,9 @@ void Player::InitWaterflow()
 	this->isHitWaterflow = false;
 	/*for (int i = 0; i < waterGimmick_->GetEmitMax(); i++)
 	{*/
-	this->waterFlowHit.x = 0;
-	this->waterFlowHit.y = 0;
-	this->waterFlowHit.z = 0;
+	this->waterFlowHit.x = 0.0f;
+	this->waterFlowHit.y = 0.0f;
+	this->waterFlowHit.z = 0.0f;
 	//}
 
 }
@@ -87,7 +87,7 @@ void Player::MarioUpdate(char* key, char* oldkey) {
 	}
 	else
 	{
-		Death(key, oldkey);
+		DeathMario(key, oldkey);
 	}
 
 	if (aliveCount[0] <= 0)
@@ -112,7 +112,7 @@ void Player::SonicUpdate(char* key, char* oldkey) {
 	}
 	else
 	{
-		Death(key, oldkey);
+		DeathSonic(key, oldkey);
 	}
 	if (aliveCount[1] <= 0)
 	{
@@ -289,23 +289,36 @@ void Player::BubbleSonic()
 }
 
 //Ž€‚ñ‚¾‚ ‚Æ‚Ìˆ—
-void Player::Death(char* key, char* oldkey) {
+void Player::DeathMario(char* key, char* oldkey) {
 
 	if (key[KEY_INPUT_R] && !oldkey[KEY_INPUT_R])
 	{
-		for (int i = 0; i < jumpLength; i++)
-		{
-			playerTransform[i].x = 32.0f;
-			playerTransform[i].y = 32.0f;
-			playerTransform[i].radius = 16.0f;
-			isSwim[i] = true;
-			isAlive[i] = true;
-			aliveCount[i] = 60 * 20;
+		playerTransform[0].x = 32.0f;
+		playerTransform[0].y = 32.0f;
+		playerTransform[0].radius = 16.0f;
+		isSwim[0] = true;
+		isAlive[0] = true;
+		aliveCount[0] = 60 * 20;
 
-			isHitWaterflow = false;
-			isHitBubble[i] = false;
-		}
+		isHitWaterflow = false;
+		isHitBubble[0] = false;
 
+
+	}
+}
+
+void Player::DeathSonic(char* key, char* oldkey) {
+
+	if (key[KEY_INPUT_R] && !oldkey[KEY_INPUT_R])
+	{
+		playerTransform[1].x = 32.0f;
+		playerTransform[1].y = 32.0f;
+		playerTransform[1].radius = 16.0f;
+		isSwim[1] = true;
+		isAlive[1] = true;
+		aliveCount[1] = 60 * 20;
+
+		isHitBubble[1] = false;
 	}
 }
 
@@ -321,13 +334,15 @@ void Player::Reset()
 		aliveCount[i] = 60 * 20;
 
 		isSwim[i] = true;
-		gravity[i] = 6.0f;
+		gravity[0] = 6.0f;
+		gravity[1] = 10.0f;
 		isAlive[i] = true;
 		isHitWaterflow = false;
 		isHitBubble[i] = false;
+		
 	}
-
-
+//ŽdŠ|‚¯‚à‰Šú‰»
+		waterGimmick_->Reset();
 }
 
 //•`‰æ
@@ -338,7 +353,7 @@ void Player::DrawMario() {
 	}
 	else
 	{
-		DrawChoking();
+		DrawMarioChoking();
 	}
 
 	DrawFormatString(0, 0, GetColor(0, 0, 0), "Life::%d", aliveCount[0]);
@@ -350,7 +365,7 @@ void Player::DrawSonic() {
 	}
 	else
 	{
-		DrawChoking();
+		DrawSonicChoking();
 	}
 
 	DrawFormatString(0, 0, GetColor(0, 0, 0), "Life::%d", aliveCount[1]);
@@ -377,15 +392,20 @@ void Player::DrawSonicAlive()
 }
 
 //’‚‘§Ž€
-void Player::DrawChoking()
+void Player::DrawMarioChoking()
 {
-	for (int i = 0; i < jumpLength; i++)
-	{
-
-		DrawBox(playerTransform[i].x - playerTransform[i].radius, playerTransform[i].y - playerTransform[i].radius,
-			playerTransform[i].x + playerTransform[i].radius, playerTransform[i].y + playerTransform[i].radius,
+		DrawBox(playerTransform[0].x - playerTransform[0].radius, playerTransform[0].y - playerTransform[0].radius,
+			playerTransform[0].x + playerTransform[0].radius, playerTransform[0].y + playerTransform[0].radius,
 			GetColor(255, 255, 255), TRUE);
-	}
+	//‚¨’m‚ç‚¹
+	DrawString(0, 30, "R‚Å•œŠˆ‚æ", GetColor(0, 0, 0));
+}
+
+void Player::DrawSonicChoking()
+{
+	DrawBox(playerTransform[1].x - playerTransform[1].radius, playerTransform[1].y - playerTransform[1].radius,
+		playerTransform[1].x + playerTransform[1].radius, playerTransform[1].y + playerTransform[1].radius,
+		GetColor(255, 255, 255), TRUE);
 	//‚¨’m‚ç‚¹
 	DrawString(0, 30, "R‚Å•œŠˆ‚æ", GetColor(0, 0, 0));
 }

@@ -27,7 +27,8 @@ public:
 	//泡更新
 	void UpdateMarioBubble(bool& isHit);
 	void UpdateSonicBubble(bool& isHit);
-
+	//リセット
+	void Reset();
 	//描画
 	void DrawMario();
 	void DrawSonic();
@@ -49,7 +50,7 @@ public:
 
 	//アクセッサ(水流)
 	Transform* GetBubbleTransform() { return bubbleTransform; }
-	bool GetIsActiveBubble() { return isActiveBubble; }
+	bool* GetIsActiveBubble() { return isActiveBubble; }
 
 private://水流
 	//水流をパーティクル生成するための変数
