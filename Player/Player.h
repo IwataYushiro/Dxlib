@@ -37,10 +37,15 @@ public:
 	//泡
 	void BubbleMario();
 	void BubbleSonic();
+	//浮遊水流
+	void Floating();
+	//当たり判定用関数
+	void IsHitFloating(Transform& transform, int num);
 
 	//死んだあと
 	void DeathMario(char* key, char* oldkey);
 	void DeathSonic(char* key, char* oldkey);
+
 	//ジャンプチェンジ時のリセット
 	void Reset();
 
@@ -59,6 +64,7 @@ public:
 	Transform* GetPlayerTransform() { return playerTransform; }
 	//当たり判定のアクセッサ
 	bool* GetIsHitBubble() { return isHitBubble; }
+
 private:
 	//床との当たり判定を得るために包含
 	Floor* floor_ = nullptr;
@@ -93,4 +99,10 @@ private:
 	bool isHitBubble[jumpLength];
 	//当たり判定用
 	Hit bubbleHit[jumpLength];
+
+	//浮遊水流
+	//当たったか
+	bool isHitFloating;
+	//当たり判定用
+	Hit floatingHit;
 };

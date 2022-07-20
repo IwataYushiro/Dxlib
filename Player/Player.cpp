@@ -107,6 +107,8 @@ void Player::SonicUpdate(char* key, char* oldkey) {
 		SonicSwim(key, oldkey);
 		waterGimmick_->SonicUpdate(isHitBubble[1]);
 
+		//浮遊水流
+		Floating();
 		//泡
 		BubbleSonic();
 	}
@@ -158,6 +160,7 @@ void Player::MarioSwim(char* key, char* oldkey) {
 	{
 		gravity[0] = 10.0f;
 	}
+
 	//泳いでる最中床に足を付けたら
 	if (playerTransform[0].y >= floor_->getMarioFloorpos() - playerTransform[0].radius)
 	{
@@ -213,9 +216,9 @@ void Player::SonicSwim(char* key, char* oldkey) {
 		//重力は徐々に上がる
 		gravity[1] += 0.2f;
 	}
-	if (gravity[0] >= 15.0f)
+	if (gravity[1] >= 15.0f)
 	{
-		gravity[0] = 15.0f;
+		gravity[1] = 15.0f;
 	}
 	//泳いでる最中床に足を付けたら
 	if (playerTransform[1].y >= floor_->getSonicFloorpos() - playerTransform[1].radius)
@@ -246,15 +249,11 @@ void Player::WaterFlow()
 	{
 		IsHitWaterFlow(waterGimmick_->GetWaterFlowTransform()[i], i);
 	}
-
-	for (int i = 0; i < jumpLength; i++)
+	//水流に飲み込まれた時
+	if (isHitWaterflow == true)
 	{
-		//水流に飲み込まれた時
-		if (isHitWaterflow == true)
-		{
-			playerTransform[i].x -= 2.0f;
-			isHitWaterflow = false;
-		}
+		playerTransform[0].x -= 2.0f;
+		isHitWaterflow = false;
 	}
 
 }
@@ -301,6 +300,44 @@ void Player::BubbleSonic()
 	}
 }
 
+//水流
+void Player::Floating()
+{
+	for (int i = 0; i < waterGimmick_->GetFloatingEmitMax(); i++)
+	{
+		IsHitFloating(waterGimmick_->GetFloatingTransform()[i], i);
+	}
+
+	//水流に飲み込まれた時
+	if (isHitFloating == true)
+	{
+		isSwim[1] = true;
+		gravity[1] = 7.0f;
+		playerTransform[1].y -= gravity[1] - (gravity[1] - 1.0f);
+		isHitFloating = false;
+	}
+}
+
+//当たり判定用関数
+void Player::IsHitFloating(Transform& transform, int num)
+{
+	//水流が出てるとき
+	for (int i = 0; i < jumpLength; i++)
+	{
+		if (waterGimmick_->GetIsActiveFloating()[num] == true)
+		{
+			floatingHit.x = playerTransform[i].x - transform.x;
+			floatingHit.y = playerTransform[i].y - transform.y;
+			floatingHit.z = floatingHit.x * floatingHit.x + floatingHit.y * floatingHit.y;
+		}
+		//当たってるか
+		if (floatingHit.z <= (playerTransform[i].radius + transform.radius) *
+			(playerTransform[i].radius + transform.radius))
+		{
+			isHitFloating = true;
+		}
+	}
+}
 //死んだあとの処理
 void Player::DeathMario(char* key, char* oldkey) {
 

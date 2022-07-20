@@ -279,7 +279,7 @@ void WaterGimmick::Reset()
 	{
 		this->floatingTransform[i].x = floatingWidth - floor_->getSonicFloorpos();	//ç¿ïW
 		this->floatingTransform[i].y = floatingHeight;
-		this->floatingTransform[i].radius = 50.0f;//ê¸ÇÃí∑Ç≥
+		this->floatingTransform[i].radius = 10.0f;//ê¸ÇÃí∑Ç≥
 		this->floatingSpeed[i] = 10.0f;			//ë¨ìx
 		this->floatingBright[i] = 255;		//ñæÇÈÇ≥
 		this->isActiveFloating[i] = false;		//ê∂Ç´ÇƒÇÈÇ©
@@ -351,7 +351,8 @@ void WaterGimmick::DrawFloating(int num)
 	if (isActiveFloating[num] == true)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, floatingBright[num]);
-		DrawLine(floatingTransform[num].x, floatingTransform[num].y, floatingTransform[num].x, floatingTransform[num].y + floatingTransform[num].radius, GetColor(255, 255, 255), 2);
+		//DrawLine(floatingTransform[num].x, floatingTransform[num].y, floatingTransform[num].x, floatingTransform[num].y + floatingTransform[num].radius, GetColor(255, 255, 255), 2);
+		DrawCircle(floatingTransform[num].x, floatingTransform[num].y, floatingTransform[num].radius, GetColor(255, 255, 255), false);
 	}
 }
 //ìñÇΩÇËîªíË
