@@ -90,7 +90,7 @@ void Player::MarioUpdate(char* key, char* oldkey) {
 		DeathMario(key, oldkey);
 	}
 
-	if (aliveCount[0] <= 0)
+	if (aliveCount[0] <= 0 || playerTransform[0].y > WIN_HEIGHT + playerTransform[0].radius)
 	{
 		aliveCount[0] = 0;
 		isAlive[0] = false;
@@ -114,7 +114,8 @@ void Player::SonicUpdate(char* key, char* oldkey) {
 	{
 		DeathSonic(key, oldkey);
 	}
-	if (aliveCount[1] <= 0)
+
+	if (aliveCount[1] <= 0 || playerTransform[1].y > WIN_HEIGHT + playerTransform[1].radius)
 	{
 		aliveCount[1] = 0;
 		isAlive[1] = false;
@@ -130,12 +131,12 @@ void Player::MarioSwim(char* key, char* oldkey) {
 	//左アローが押されていたら
 	if (key[KEY_INPUT_LEFT])
 	{
-		playerTransform[0].x -= moveSpeed[0];
+		playerTransform[mario].x -= moveSpeed[mario];
 	}
 	//右アローが押されていたら
 	if (key[KEY_INPUT_RIGHT])
 	{
-		playerTransform[0].x += moveSpeed[0];
+		playerTransform[mario].x += moveSpeed[mario];
 	}
 	//スペースキーを押した瞬間泳ぐ(床から離れている状態)
 	if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
@@ -219,9 +220,21 @@ void Player::SonicSwim(char* key, char* oldkey) {
 	//泳いでる最中床に足を付けたら
 	if (playerTransform[1].y >= floor_->getSonicFloorpos() - playerTransform[1].radius)
 	{
-		gravity[1] = 10.0f;
-		isSwim[1] = false;
-		playerTransform[1].y = floor_->getSonicFloorpos() - playerTransform[1].radius;
+		if (playerTransform[1].x > 700.0f)
+		{
+			if (playerTransform[1].x <= 700.0f + playerTransform[1].radius && isSwim[1] == true)
+			{
+				playerTransform[1].x = 700.0f + playerTransform[1].radius;
+			}
+			isSwim[1] = true;
+		}
+		else
+		{
+			gravity[1] = 10.0f;
+			isSwim[1] = false;
+			playerTransform[1].y = floor_->getSonicFloorpos() - playerTransform[1].radius;
+		}
+
 	}
 
 }
@@ -229,7 +242,7 @@ void Player::SonicSwim(char* key, char* oldkey) {
 //水流
 void Player::WaterFlow()
 {
-	for (int i = 0; i < waterGimmick_->GetEmitMax(); i++)
+	for (int i = 0; i < waterGimmick_->GetWaterFlowEmitMax(); i++)
 	{
 		IsHitWaterFlow(waterGimmick_->GetWaterFlowTransform()[i], i);
 	}
@@ -339,10 +352,8 @@ void Player::Reset()
 		isAlive[i] = true;
 		isHitWaterflow = false;
 		isHitBubble[i] = false;
-		
 	}
-//仕掛けも初期化
-		waterGimmick_->Reset();
+
 }
 
 //描画
@@ -394,9 +405,9 @@ void Player::DrawSonicAlive()
 //窒息死
 void Player::DrawMarioChoking()
 {
-		DrawBox(playerTransform[0].x - playerTransform[0].radius, playerTransform[0].y - playerTransform[0].radius,
-			playerTransform[0].x + playerTransform[0].radius, playerTransform[0].y + playerTransform[0].radius,
-			GetColor(255, 255, 255), TRUE);
+	DrawBox(playerTransform[0].x - playerTransform[0].radius, playerTransform[0].y - playerTransform[0].radius,
+		playerTransform[0].x + playerTransform[0].radius, playerTransform[0].y + playerTransform[0].radius,
+		GetColor(255, 255, 255), TRUE);
 	//お知らせ
 	DrawString(0, 30, "Rで復活よ", GetColor(0, 0, 0));
 }

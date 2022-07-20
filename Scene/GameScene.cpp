@@ -45,9 +45,10 @@ void GameScene::Update() {
 		player_->MarioUpdate(keys, oldkeys);
 		//ŽdŠ|‚¯
 		waterGimmick_->MarioUpdate(player_->GetIsHitBubble()[0]);
-		if (keys[KEY_INPUT_1] && !oldkeys[KEY_INPUT_1])
+		if (keys[KEY_INPUT_R] && !oldkeys[KEY_INPUT_R])
 		{
 			player_->Reset();
+			waterGimmick_->Reset();
 			playerJump = sonic;
 			break;
 		}
@@ -56,9 +57,10 @@ void GameScene::Update() {
 		player_->SonicUpdate(keys, oldkeys);
 		//ŽdŠ|‚¯
 		waterGimmick_->SonicUpdate(player_->GetIsHitBubble()[1]);
-		if (keys[KEY_INPUT_1] && !oldkeys[KEY_INPUT_1])
+		if (keys[KEY_INPUT_R] && !oldkeys[KEY_INPUT_R])
 		{
 			player_->Reset();
+			waterGimmick_->Reset();
 			playerJump = mario;
 			break;
 		}

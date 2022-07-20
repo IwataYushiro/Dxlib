@@ -25,5 +25,5 @@ void Floor::DrawMarioFloor()
 
 void Floor::DrawSonicFloor()
 {
-	DrawBox(0, sonicFloorPos, WIN_WIDTH, WIN_HEIGHT, GetColor(0, 8, 22), true);
+	DrawBox(0, sonicFloorPos, 700, WIN_HEIGHT, GetColor(0, 8, 22), true);
 }

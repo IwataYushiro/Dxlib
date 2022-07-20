@@ -18,6 +18,8 @@ void WaterGimmick::Initialize()
 	InitWaterflow();
 	//–A‰Šú‰»
 	InitBubble();
+	//•‚—V‰QŠª‰Šú‰»
+	InitFloating();
 }
 
 //…—¬‰Šú‰»
@@ -27,7 +29,7 @@ void WaterGimmick::InitWaterflow() {
 	this->waterFlowWidth = 200.0f;						//‰¡•
 	this->waterFlowHeight = 10.0f;						//c•
 	//…—¬‰Šú‰»
-	for (int i = 0; i < EMITTER_MAX; i++)
+	for (int i = 0; i < WATERFLOW_MAX; i++)
 	{
 
 		this->waterFlowTransform[i].x = WIN_WIDTH - waterFlowWidth;		//XÀ•W
@@ -65,6 +67,12 @@ void WaterGimmick::InitBubble()
 	}
 
 }
+//•‚—V‰QŠª‰Šú‰»
+void InitFloating()
+{
+
+}
+
 
 //XV
 void WaterGimmick::MarioUpdate(bool& isHitBubble)
@@ -85,7 +93,7 @@ void WaterGimmick::SonicUpdate(bool& isHitBubble)
 //…—¬XV
 void WaterGimmick::UpdateWaterFlow(float floorPos)
 {
-	for (int i = 0; i < EMITTER_MAX; i++)
+	for (int i = 0; i < WATERFLOW_MAX; i++)
 	{
 
 		if (isActiveWaterFlow[i] == false)
@@ -99,7 +107,7 @@ void WaterGimmick::UpdateWaterFlow(float floorPos)
 			}
 		}
 	}
-	for (int i = 0; i < EMITTER_MAX; i++)
+	for (int i = 0; i < WATERFLOW_MAX; i++)
 	{
 
 		if (isActiveWaterFlow[i] == true)
@@ -229,16 +237,20 @@ void WaterGimmick::Reset()
 	waterFlowWidth = 200.0f;
 	waterFlowHeight = 10.0f;
 
-	for (int i = 0; i < jumpLength; i++)
+	for (int i = 0; i < WATERFLOW_MAX; i++)
 	{
+
 		waterFlowTransform[i].x = WIN_WIDTH - waterFlowWidth;		//XÀ•W
 		waterFlowTransform[i].y = floor_->getMarioFloorpos() - waterFlowHeight;
 		waterFlowTransform[i].radius = 5.0f;		//…—¬–A‚Ì”¼Œa
 		waterFlowSpeed[i] = 5.0f;			//‘¬“x
 		waterFlowBright[i] = 255;		//–¾‚é‚³
 		isActiveWaterFlow[i] = false;		//¶‚«‚Ä‚é‚©
+	}
 
-
+	for (int i = 0; i < jumpLength; i++)
+	{
+		
 		//”ÍˆÍ
 		bubbleWidth[i] = 200.0f;														//‰¡•
 		bubbleHeight[i] = WIN_HEIGHT;						//c•
@@ -263,7 +275,7 @@ void WaterGimmick::Reset()
 void WaterGimmick::DrawMario()
 {
 	//…—¬•`‰æ
-	for (int i = 0; i < EMITTER_MAX; i++)
+	for (int i = 0; i < WATERFLOW_MAX; i++)
 	{
 		DrawWaterFlow(i);
 	}
