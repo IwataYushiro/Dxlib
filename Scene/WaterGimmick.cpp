@@ -141,7 +141,7 @@ void WaterGimmick::UpdateMarioBubble(bool& isHit)
 {
 	if (bubbleCount[mario] <= 0)
 	{
-		bubbleCount[mario] = 0;
+		
 		isActiveBubble[mario] = true;
 	}
 	if (isActiveBubble[mario] == true)

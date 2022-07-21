@@ -261,7 +261,7 @@ void Player::MarioVehicle(char* key, char* oldkey)
 
 			isHitWaterflow = false;
 			isHitBubble[mario] = false;
-
+			
 			isBoardingVehicle = false;
 		}
 
