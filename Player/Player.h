@@ -7,7 +7,6 @@
 class Player
 {
 public:
-	Player();
 	~Player();
 
 	//‰Šú‰»
@@ -19,6 +18,8 @@ public:
 	void InitWaterflow();
 	//–A
 	void InitBubble();
+	//•‚—V…—¬
+	void InitFloating();
 
 	//XV
 	void MarioUpdate(char* key, char* oldkey);

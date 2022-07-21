@@ -4,7 +4,6 @@
 WaterGimmick::~WaterGimmick()
 {
 	delete floor_;
-
 }
 
 //‰Šú‰»
@@ -18,7 +17,7 @@ void WaterGimmick::Initialize()
 	InitWaterflow();
 	//–A‰Šú‰»
 	InitBubble();
-	//•‚—V‰QŠª‰Šú‰»
+	//•‚—V…—¬‰Šú‰»
 	InitFloating();
 }
 
