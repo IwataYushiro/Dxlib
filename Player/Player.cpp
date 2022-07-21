@@ -572,7 +572,7 @@ void  Player::DrawVehicle()
 	DrawString(0, 100, "Cでジャンプ方式や仕掛けが変わりまっせ", GetColor(100, 255, 100));
 	if (isBoardingVehicle == true)
 	{
-		DrawString(0, 200, "乗りごごちヨシ！", GetColor(0, 0, 200));
+		DrawString(0, 200, "乗りごごちヨシ！スペースで降りるよ", GetColor(0, 0, 200));
 	}
 
 }
