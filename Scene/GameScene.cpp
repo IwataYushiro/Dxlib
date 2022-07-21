@@ -66,7 +66,7 @@ void GameScene::Update() {
 		}
 		break;
 	}
-	
+
 
 }
 
@@ -99,7 +99,7 @@ void GameScene::Draw() {
 
 		DrawString(0, 150, "sonic", GetColor(0, 255, 0));
 		break;
-	
+
 	}
 
 }

@@ -18,7 +18,7 @@ public:
 	void Draw();
 
 private:
-	
+
 	int playerJump;
 
 	// 最新のキーボード情報用
@@ -34,6 +34,6 @@ private:
 	//水中ギミック包含
 	WaterGimmick* waterGimmick_ = nullptr;
 
-	
+
 };
 

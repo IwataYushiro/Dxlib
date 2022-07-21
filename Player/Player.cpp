@@ -225,7 +225,7 @@ void Player::MarioSwim(char* key, char* oldkey) {
 //æ‚è•¨
 void Player::MarioVehicle(char* key, char* oldkey)
 {
-	
+
 	if (isBoardingVehicle == true)
 	{
 		//¶ƒAƒ[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚½‚ç
@@ -261,7 +261,7 @@ void Player::MarioVehicle(char* key, char* oldkey)
 
 			isHitWaterflow = false;
 			isHitBubble[mario] = false;
-			
+
 			isBoardingVehicle = false;
 		}
 

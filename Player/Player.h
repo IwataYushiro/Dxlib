@@ -16,7 +16,7 @@ public:
 	void InitPlayer();
 	//乗り物
 	void InitVehicle();
-	
+
 	//水流
 	void InitWaterflow();
 	//泡
@@ -26,7 +26,7 @@ public:
 
 	//更新
 	void MarioUpdate(char* key, char* oldkey);
-	
+
 	void SonicUpdate(char* key, char* oldkey);
 
 	//マリオ風泳ぎ
@@ -100,7 +100,7 @@ private:
 	bool isAlive[jumpLength];
 	//寿命
 	int aliveCount[jumpLength];
-	
+
 	//乗り物
 	bool isBoardingVehicle;//乗ってるか
 	Transform vehicleTransform;

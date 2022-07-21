@@ -73,8 +73,8 @@ private:
 	//床の情報を取得
 	Floor* floor_ = nullptr;
 
-//水流
-	//水流をパーティクル生成するための変数
+	//水流
+		//水流をパーティクル生成するための変数
 	static const int WATERFLOW_MAX = 1500;			//最大個数
 
 	float  waterFlowWidth;						//横幅
@@ -92,7 +92,7 @@ private://泡
 	Transform bubbleTransform[jumpLength];				//座標
 	float  bubbleSpeed[jumpLength];						//速度
 	bool   isActiveBubble[jumpLength];					//生きてるか
-		
+
 	//泡の当たり判定用
 	Hit bubbleHit[jumpLength];
 
