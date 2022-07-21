@@ -21,8 +21,8 @@ public:
 	void InitFloating();
 
 	//更新
-	void MarioUpdate(bool& isHitBubble);
-	void SonicUpdate(bool& isHitBubble);
+	void MarioUpdate(bool isHitBubble);
+	void SonicUpdate(bool isHitBubble);
 
 	//水流更新
 	void UpdateWaterFlow(float floorPos);

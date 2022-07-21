@@ -85,7 +85,7 @@ void WaterGimmick::InitFloating()
 
 
 //更新
-void WaterGimmick::MarioUpdate(bool& isHitBubble)
+void WaterGimmick::MarioUpdate(bool isHitBubble)
 {
 	//水流
 	UpdateWaterFlow(floor_->getMarioFloorpos());
@@ -93,7 +93,7 @@ void WaterGimmick::MarioUpdate(bool& isHitBubble)
 	UpdateMarioBubble(isHitBubble);
 
 }
-void WaterGimmick::SonicUpdate(bool& isHitBubble)
+void WaterGimmick::SonicUpdate(bool isHitBubble)
 {
 	//浮遊水流
 	UpdateFloating();
@@ -139,61 +139,61 @@ void WaterGimmick::UpdateWaterFlow(float floorPos)
 //泡更新
 void WaterGimmick::UpdateMarioBubble(bool& isHit)
 {
-	if (bubbleCount[0] <= 0)
+	if (bubbleCount[mario] <= 0)
 	{
-		bubbleCount[0] = 0;
-		isActiveBubble[0] = true;
+		bubbleCount[mario] = 0;
+		isActiveBubble[mario] = true;
 	}
-	if (isActiveBubble[0] == true)
+	if (isActiveBubble[mario] == true)
 	{
 		if (isHit == false)
 		{
-			bubbleTransform[0].y -= bubbleSpeed[0];
+			bubbleTransform[mario].y -= bubbleSpeed[mario];
 		}
 
-		if (bubbleTransform[0].y <= 0.0f || isHit == true)
+		if (bubbleTransform[mario].y <= 0.0f || isHit == true)
 		{
-			bubbleTransform[0].x = bubbleWidth[0];
-			bubbleTransform[0].y = bubbleHeight[0];
-			isActiveBubble[0] = false;
-			bubbleCount[0] = 60 * 4;
+			bubbleTransform[mario].x = bubbleWidth[mario];
+			bubbleTransform[mario].y = bubbleHeight[mario];
+			isActiveBubble[mario] = false;
+			bubbleCount[mario] = 60 * 4;
 			isHit = false;
 		}
 	}
 	else
 	{
 
-		bubbleCount[0]--;
+		bubbleCount[mario]--;
 	}
 }
 
 void WaterGimmick::UpdateSonicBubble(bool& isHit)
 {
-	if (bubbleCount[1] <= 0)
+	if (bubbleCount[sonic] <= 0)
 	{
-		bubbleCount[1] = 0;
-		isActiveBubble[1] = true;
+		bubbleCount[sonic] = 0;
+		isActiveBubble[sonic] = true;
 	}
-	if (isActiveBubble[1] == true)
+	if (isActiveBubble[sonic] == true)
 	{
 		if (isHit == false)
 		{
-			bubbleTransform[1].y -= bubbleSpeed[1];
+			bubbleTransform[sonic].y -= bubbleSpeed[sonic];
 		}
 
-		if (bubbleTransform[1].y <= 0.0f || isHit == true)
+		if (bubbleTransform[sonic].y <= 0.0f || isHit == true)
 		{
-			bubbleTransform[1].x = bubbleWidth[1];
-			bubbleTransform[1].y = bubbleHeight[1];
-			isActiveBubble[1] = false;
-			bubbleCount[1] = 60 * 4;
+			bubbleTransform[sonic].x = bubbleWidth[sonic];
+			bubbleTransform[sonic].y = bubbleHeight[sonic];
+			isActiveBubble[sonic] = false;
+			bubbleCount[sonic] = 60 * 4;
 			isHit = false;
 		}
 	}
 	else
 	{
 
-		bubbleCount[1]--;
+		bubbleCount[sonic]--;
 	}
 }
 
@@ -358,15 +358,15 @@ void WaterGimmick::DrawFloating(int num)
 //当たり判定用関数
 void WaterGimmick::IsHitBubbleMario(Transform& transform, bool& isHit)
 {
-	bubbleHit[0].x = transform.x - bubbleTransform[0].x;
-	bubbleHit[0].y = transform.y - bubbleTransform[0].y;
-	bubbleHit[0].z = bubbleHit[0].x * bubbleHit[0].x + bubbleHit[0].y * bubbleHit[0].y;
+	bubbleHit[mario].x = transform.x - bubbleTransform[mario].x;
+	bubbleHit[mario].y = transform.y - bubbleTransform[mario].y;
+	bubbleHit[mario].z = bubbleHit[mario].x * bubbleHit[mario].x + bubbleHit[mario].y * bubbleHit[mario].y;
 	//泡が出てるとき
-	if (isActiveBubble[0] == true && isHit == false)
+	if (isActiveBubble[mario] == true && isHit == false)
 	{
 		//当たってるか
-		if (bubbleHit[0].z <= (bubbleTransform[0].radius + transform.radius) *
-			(bubbleTransform[0].radius + transform.radius))
+		if (bubbleHit[mario].z <= (bubbleTransform[mario].radius + transform.radius) *
+			(bubbleTransform[mario].radius + transform.radius))
 		{
 			isHit = true;
 		}
@@ -374,22 +374,21 @@ void WaterGimmick::IsHitBubbleMario(Transform& transform, bool& isHit)
 	}
 	if (isHit == true)
 	{
-		isActiveBubble[0] = false;
-
+		isActiveBubble[mario] = false;
 	}
 }
 
 void WaterGimmick::IsHitBubbleSonic(Transform& transform, bool& isHit)
 {
-	bubbleHit[1].x = transform.x - bubbleTransform[1].x;
-	bubbleHit[1].y = transform.y - bubbleTransform[1].y;
-	bubbleHit[1].z = bubbleHit[1].x * bubbleHit[1].x + bubbleHit[1].y * bubbleHit[1].y;
+	bubbleHit[sonic].x = transform.x - bubbleTransform[sonic].x;
+	bubbleHit[sonic].y = transform.y - bubbleTransform[sonic].y;
+	bubbleHit[sonic].z = bubbleHit[sonic].x * bubbleHit[sonic].x + bubbleHit[sonic].y * bubbleHit[sonic].y;
 	//泡が出てるとき
-	if (isActiveBubble[1] == true && isHit == false)
+	if (isActiveBubble[sonic] == true && isHit == false)
 	{
 		//当たってるか
-		if (bubbleHit[1].z <= (bubbleTransform[1].radius + transform.radius) *
-			(bubbleTransform[1].radius + transform.radius))
+		if (bubbleHit[sonic].z <= (bubbleTransform[sonic].radius + transform.radius) *
+			(bubbleTransform[sonic].radius + transform.radius))
 		{
 			isHit = true;
 		}
@@ -397,7 +396,7 @@ void WaterGimmick::IsHitBubbleSonic(Transform& transform, bool& isHit)
 	}
 	if (isHit == true)
 	{
-		isActiveBubble[1] = false;
+		isActiveBubble[sonic] = false;
 
 	}
 }

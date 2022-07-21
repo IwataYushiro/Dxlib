@@ -87,7 +87,7 @@ void Player::MarioUpdate(char* key, char* oldkey) {
 	if (isAlive[mario] == true)
 	{
 		MarioSwim(key, oldkey);
-		waterGimmick_->MarioUpdate(isHitBubble[0]);
+		waterGimmick_->MarioUpdate(isHitBubble[mario]);
 		//…—¬
 		WaterFlow();
 		//–A
@@ -114,7 +114,7 @@ void Player::SonicUpdate(char* key, char* oldkey) {
 	if (isAlive[sonic] == true)
 	{
 		SonicSwim(key, oldkey);
-		waterGimmick_->SonicUpdate(isHitBubble[1]);
+		waterGimmick_->SonicUpdate(isHitBubble[sonic]);
 
 		//•‚—V…—¬
 		Floating();

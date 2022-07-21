@@ -64,7 +64,8 @@ public:
 	//プレイヤー情報のアクセッサ
 	Transform* GetPlayerTransform() { return playerTransform; }
 	//当たり判定のアクセッサ
-	bool* GetIsHitBubble() { return isHitBubble; }
+	bool GetIsHitMarioBubble() { return isHitBubble[mario]; }
+	bool GetIsHitSonicBubble() { return isHitBubble[sonic]; }
 
 private:
 	//床との当たり判定を得るために包含
