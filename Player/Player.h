@@ -14,6 +14,9 @@ public:
 
 	//プレイヤー情報
 	void InitPlayer();
+	//乗り物
+	void InitVehicle();
+	
 	//水流
 	void InitWaterflow();
 	//泡
@@ -23,10 +26,15 @@ public:
 
 	//更新
 	void MarioUpdate(char* key, char* oldkey);
+	
 	void SonicUpdate(char* key, char* oldkey);
 
 	//マリオ風泳ぎ
 	void MarioSwim(char* key, char* oldkey);
+	//乗り物更新
+	void MarioVehicle(char* key, char* oldkey);
+	//乗り物の当たり判定
+	// 
 	//ソニック風
 	void SonicSwim(char* key, char* oldkey);
 
@@ -56,6 +64,9 @@ public:
 
 	//生きてるとき
 	void DrawMarioAlive();
+	//乗り物
+	void DrawVehicle();
+
 	void DrawSonicAlive();
 
 	//窒息したとき
@@ -89,6 +100,10 @@ private:
 	bool isAlive[jumpLength];
 	//寿命
 	int aliveCount[jumpLength];
+	
+	//乗り物
+	bool isBoardingVehicle;//乗ってるか
+	Transform vehicleTransform;
 
 	//水流(マリオ風)
 	//当たったか

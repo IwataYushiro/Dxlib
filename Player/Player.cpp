@@ -17,6 +17,8 @@ void Player::Initialize() {
 	waterGimmick_->Initialize();
 	//プレイヤー情報
 	InitPlayer();
+	//乗り物
+	InitVehicle();
 	//水流
 	InitWaterflow();
 	//泡
@@ -43,6 +45,16 @@ void Player::InitPlayer()
 	this->gravity[mario] = 6.0f;
 	this->gravity[sonic] = 10.0f;
 
+}
+//乗り物
+void Player::InitVehicle()
+{
+	//乗ってるか
+	this->isBoardingVehicle = false;
+
+	this->vehicleTransform.x = 500.0f;
+	this->vehicleTransform.y = 500.0f;
+	this->vehicleTransform.radius = 32.0f;
 }
 
 //水流
@@ -73,7 +85,7 @@ void Player::InitBubble()
 void Player::InitFloating()
 {
 	//水流
-	this->isHitFloating = false;
+	this->isHitFloating= false;
 
 	this->floatingHit.x = 0.0f;
 	this->floatingHit.y = 0.0f;
@@ -85,10 +97,17 @@ void Player::InitFloating()
 void Player::MarioUpdate(char* key, char* oldkey) {
 	//マリオ風泳ぎ
 	if (isAlive[mario] == true)
-	{
-		MarioSwim(key, oldkey);
-		waterGimmick_->MarioUpdate(isHitBubble[mario]);
+	{	MarioSwim(key, oldkey);
+		
+		MarioVehicle(key, oldkey);
+		
+		if (isBoardingVehicle==false)
+		{	
+			waterGimmick_->MarioUpdate(isHitBubble[mario]);
+			aliveCount[mario]--;
+		}
 		//水流
+		
 		WaterFlow();
 		//泡
 		BubbleMario();
@@ -105,7 +124,7 @@ void Player::MarioUpdate(char* key, char* oldkey) {
 		isAlive[mario] = false;
 		isHitWaterflow = false;
 	}
-	aliveCount[mario]--;
+	
 }
 
 //ソニック更新
@@ -138,63 +157,126 @@ void Player::SonicUpdate(char* key, char* oldkey) {
 //マリオ風泳ぎ
 void Player::MarioSwim(char* key, char* oldkey) {
 
-
-	//左アローが押されていたら
-	if (key[KEY_INPUT_LEFT])
+	if (isBoardingVehicle==false)
 	{
-		playerTransform[mario].x -= moveSpeed[mario];
-	}
-	//右アローが押されていたら
-	if (key[KEY_INPUT_RIGHT])
-	{
-		playerTransform[mario].x += moveSpeed[mario];
-	}
-	//スペースキーを押した瞬間泳ぐ(床から離れている状態)
-	if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
-	{
-		isSwim[mario] = true;
-		//重力が0になる
-		gravity[mario] = 0.0f;
-	}
-
-	//泳いでいる間
-	if (isSwim[mario] == true)
-	{
-		//プレイヤーの座標 -= 浮力(固定) - 重力(徐々に上がる)　
-		playerTransform[mario].y -= buoyancy[mario] - gravity[mario];
-		//重力は徐々に上がる
-		gravity[mario] += 0.2f;
-	}
-	if (gravity[mario] >= 10.0f)
-	{
-		gravity[mario] = 10.0f;
-	}
-
-	//泳いでる最中床に足を付けたら
-	if (playerTransform[mario].y >= floor_->getMarioFloorpos() - playerTransform[mario].radius)
-	{
-		if (playerTransform[mario].x > 400.0f && playerTransform[mario].x < 800.0f)
+		//左アローが押されていたら
+		if (key[KEY_INPUT_LEFT])
 		{
-			if (playerTransform[mario].x <= 400.0f + playerTransform[mario].radius && isSwim[mario] == true)
-			{
-				playerTransform[mario].x = 400.0f + playerTransform[mario].radius;
-
-			}
-			else if (playerTransform[mario].x >= 800.0f - playerTransform[mario].radius && isSwim[mario] == true)
-			{
-				playerTransform[mario].x = 800.0f - playerTransform[mario].radius;
-			}
+			playerTransform[mario].x -= moveSpeed[mario];
+		}
+		//右アローが押されていたら
+		if (key[KEY_INPUT_RIGHT])
+		{
+			playerTransform[mario].x += moveSpeed[mario];
+		}
+		//スペースキーを押した瞬間泳ぐ(床から離れている状態)
+		if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
+		{
 			isSwim[mario] = true;
-		}
-		else
-		{
-			gravity[mario] = 6.0f;
-			isSwim[mario] = false;
-			playerTransform[mario].y = floor_->getMarioFloorpos() - playerTransform[mario].radius;
+			//重力が0になる
+			gravity[mario] = 0.0f;
 		}
 
+		//泳いでいる間
+		if (isSwim[mario] == true)
+		{
+			//プレイヤーの座標 -= 浮力(固定) - 重力(徐々に上がる)　
+			playerTransform[mario].y -= buoyancy[mario] - gravity[mario];
+			//重力は徐々に上がる
+			gravity[mario] += 0.2f;
+		}
+		if (gravity[mario] >= 10.0f)
+		{
+			gravity[mario] = 10.0f;
+		}
+
+		//泳いでる最中床に足を付けたら
+		if (playerTransform[mario].y >= floor_->getMarioFloorpos() - playerTransform[mario].radius)
+		{
+			if (playerTransform[mario].x > 400.0f && playerTransform[mario].x < 800.0f)
+			{
+				if (playerTransform[mario].x <= 400.0f + playerTransform[mario].radius && isSwim[mario] == true)
+				{
+					playerTransform[mario].x = 400.0f + playerTransform[mario].radius;
+
+				}
+				else if (playerTransform[mario].x >= 800.0f - playerTransform[mario].radius && isSwim[mario] == true)
+				{
+					playerTransform[mario].x = 800.0f - playerTransform[mario].radius;
+				}
+				isSwim[mario] = true;
+			}
+			else
+			{
+				gravity[mario] = 6.0f;
+				isSwim[mario] = false;
+				playerTransform[mario].y = floor_->getMarioFloorpos() - playerTransform[mario].radius;
+			}
+
+		}
 	}
 }
+//乗り物
+void Player::MarioVehicle(char* key, char* oldkey)
+{
+	if (isBoardingVehicle == true)
+	{
+		//左アローが押されていたら
+		if (key[KEY_INPUT_LEFT])
+		{
+			vehicleTransform.x -= moveSpeed[mario];
+		}
+		//右アローが押されていたら
+		if (key[KEY_INPUT_RIGHT])
+		{
+			vehicleTransform.x += moveSpeed[mario];
+		}
+		//上アローが押されていたら
+		if (key[KEY_INPUT_UP])
+		{
+			vehicleTransform.y -= moveSpeed[mario];
+		}
+		//下アローが押されていたら
+		if (key[KEY_INPUT_DOWN])
+		{
+			vehicleTransform.y += moveSpeed[mario];
+		}
+
+		//スペースキーを押した瞬間降りる(床から離れている状態)
+		if (key[KEY_INPUT_SPACE] && !oldkey[KEY_INPUT_SPACE])
+		{
+			isBoardingVehicle = false;
+
+			vehicleTransform.x = 500.0f;
+			vehicleTransform.y = 500.0f;
+			vehicleTransform.radius = 32.0f;
+		}
+
+		//泳いでる最中床に足を付けたら
+		if (vehicleTransform.y >= floor_->getMarioFloorpos() - vehicleTransform.radius)
+		{
+			if (vehicleTransform.x > 400.0f && vehicleTransform.x < 800.0f)
+			{
+				if (vehicleTransform.x <= 400.0f + vehicleTransform.radius && isSwim[mario] == true)
+				{
+					vehicleTransform.x = 400.0f + vehicleTransform.radius;
+
+				}
+				else if (vehicleTransform.x >= 800.0f - vehicleTransform.radius && isSwim[mario] == true)
+				{
+					vehicleTransform.x = 800.0f - vehicleTransform.radius;
+				}
+
+			}
+			else
+			{
+				vehicleTransform.y = floor_->getMarioFloorpos() - vehicleTransform.radius;
+			}
+
+		}
+	}
+}
+
 //ソニック風泳ぎ
 void Player::SonicSwim(char* key, char* oldkey) {
 
@@ -362,7 +444,7 @@ void Player::DeathMario(char* key, char* oldkey) {
 		isHitWaterflow = false;
 		isHitBubble[mario] = false;
 
-
+		waterGimmick_->Reset();
 	}
 }
 
@@ -378,6 +460,8 @@ void Player::DeathSonic(char* key, char* oldkey) {
 		aliveCount[sonic] = 60 * 20;
 
 		isHitBubble[sonic] = false;
+
+		waterGimmick_->Reset();
 	}
 }
 
@@ -399,6 +483,14 @@ void Player::Reset()
 		isHitWaterflow = false;
 		isHitBubble[i] = false;
 		isHitFloating = false;
+
+		isBoardingVehicle = false;
+
+		vehicleTransform.x = 32.0f;
+		vehicleTransform.y = 32.0f;
+		vehicleTransform.radius = 16.0f;
+
+		waterGimmick_->Reset();
 	}
 
 }
@@ -407,7 +499,11 @@ void Player::Reset()
 void Player::DrawMario() {
 	if (isAlive[mario] == true)
 	{
-		DrawMarioAlive();
+		if (isBoardingVehicle==false)
+		{
+			DrawMarioAlive();
+		}
+		DrawVehicle();
 	}
 	else
 	{
@@ -438,6 +534,20 @@ void Player::DrawMarioAlive()
 	//お知らせ
 	DrawString(0, 30, "アローで移動、スペースで泳ぎますわよ", GetColor(255, 255, 255));
 	DrawString(0, 100, "Cでジャンプ方式や仕掛けが変わりまっせ", GetColor(100, 255, 100));
+}
+void  Player::DrawVehicle()
+{
+	DrawBox(vehicleTransform.x - vehicleTransform.radius, vehicleTransform.y - vehicleTransform.radius,
+		vehicleTransform.x + vehicleTransform.radius, vehicleTransform.y + vehicleTransform.radius,
+		GetColor(0, 0, 255), TRUE);
+	//お知らせ
+	DrawString(0, 30, "アローで移動、スペースで泳ぎますわよ", GetColor(255, 255, 255));
+	DrawString(0, 100, "Cでジャンプ方式や仕掛けが変わりまっせ", GetColor(100, 255, 100));
+	if (isBoardingVehicle==true)
+	{
+		DrawString(0, 200, "乗りごごちヨシ！", GetColor(0, 0, 200));
+	}
+	
 }
 
 //生きてるとき
