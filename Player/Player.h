@@ -34,7 +34,7 @@ public:
 	//乗り物更新
 	void MarioVehicle(char* key, char* oldkey);
 	//乗り物の当たり判定
-	// 
+	void IsBoardingVehicle();
 	//ソニック風
 	void SonicSwim(char* key, char* oldkey);
 
@@ -104,6 +104,7 @@ private:
 	//乗り物
 	bool isBoardingVehicle;//乗ってるか
 	Transform vehicleTransform;
+	Hit vehicleHit;
 
 	//水流(マリオ風)
 	//当たったか
